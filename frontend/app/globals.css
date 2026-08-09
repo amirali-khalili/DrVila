@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+
+/* 🎨 متغیرها */
+:root {
+  --gold: #c8973f;
+  --gold-light: #e0b768;
+  --dark: #171a16;
+  --dark-2: #1f2319;
+  --cream: #f7f4ec;
+}
+
+/* 🌐 استایل‌های پایه */
+* {
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+body {
+  background: var(--cream);
+}
+
+/* 🧩 کلاس‌های سفارشی */
+.gold-grad {
+  background: linear-gradient(135deg, #dcae5c, #b9822f);
+}
+
+.divider-diamond::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+.section-title {
+  position: relative;
+}
+
+.hero-bg {
+  background-image: linear-gradient(
+      180deg,
+      rgba(10, 14, 10, 0.55) 0%,
+      rgba(10, 14, 10, 0.25) 35%,
+      rgba(10, 14, 10, 0.75) 100%
+    ),
+    url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+
+.card-hover {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25);
+}
+
+.scallop-bottom {
+  -webkit-mask-image: radial-gradient(circle at 30px 0, transparent 29px, black 30px);
+  -webkit-mask-size: 60px 30px;
+  -webkit-mask-repeat: repeat-x;
+  -webkit-mask-position: bottom;
+  mask-image: radial-gradient(circle at 30px 0, transparent 29px, black 30px);
+  mask-size: 60px 30px;
+  mask-repeat: repeat-x;
+  mask-position: bottom;
+}
