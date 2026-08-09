@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function Navbar() {
@@ -11,30 +12,28 @@ export default function Navbar() {
         </div>
 
         <nav className="hidden lg:flex items-center gap-8 text-white/90 text-sm font-medium">
-          <a
-            href="#"
+          <Link
+            href="/"
             className="pb-1 border-b-2 border-[var(--gold)] text-white"
           >
             خانه
-          </a>
-          <a
-            href="#villas"
+          </Link>
+          <Link
+            href="/villas"
             className="hover:text-[var(--gold-light)] transition"
           >
             خرید ویلا
-          </a>
-          <a href="#land" className="hover:text-[var(--gold-light)] transition">
+          </Link>
+          <Link href="/earth" className="hover:text-[var(--gold-light)] transition">
             خرید زمین
-          </a>
-          <a href="#" className="hover:text-[var(--gold-light)] transition">
-            فروش ملک
-          </a>
-          <a href="#" className="hover:text-[var(--gold-light)] transition">
+          </Link>
+          
+          <Link href="/aboutUs" className="hover:text-[var(--gold-light)] transition">
             درباره ما
-          </a>
-          <a href="#" className="hover:text-[var(--gold-light)] transition">
+          </Link>
+          <Link href="/contactUs" className="hover:text-[var(--gold-light)] transition">
             تماس با ما
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">

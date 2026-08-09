@@ -1,70 +1,125 @@
 @import "tailwindcss";
 
-
 /* 🎨 متغیرها */
 :root {
-  --gold: #c8973f;
-  --gold-light: #e0b768;
-  --dark: #171a16;
-  --dark-2: #1f2319;
-  --cream: #f7f4ec;
+--gold: #c8973f;
+--gold-light: #e0b768;
+--dark: #171a16;
+--dark-2: #1f2319;
+--cream: #f7f4ec;
+
+/* ✨ رنگ‌های جدید (جایگزین tailwind.config) */
+--brand-50: #faf7f2;
+--brand-100: #f3ece0;
+--brand-200: #e7d8bc;
+--brand-300: #d7bb8b;
+--brand-400: #caa468;
+--brand-500: #bb8d48;
+--brand-600: #a67535;
+--brand-700: #875c2a;
+--brand-800: #704c27;
+--brand-900: #5f4124;
+
+--ink: #171717;
+--pine: #17352b;
+--mist: #f7f7f5;
 }
 
 /* 🌐 استایل‌های پایه */
+
 * {
   font-family: 'Vazirmatn', sans-serif;
-}
+  }
 
 body {
-  background: var(--cream);
+background: var(--cream);
 }
 
-/* 🧩 کلاس‌های سفارشی */
+/* 🧩 کلاس‌های قبلی */
 .gold-grad {
-  background: linear-gradient(135deg, #dcae5c, #b9822f);
+background: linear-gradient(135deg, #dcae5c, #b9822f);
 }
 
 .divider-diamond::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: var(--gold);
-  transform: rotate(45deg);
+content: "";
+display: inline-block;
+width: 8px;
+height: 8px;
+background: var(--gold);
+transform: rotate(45deg);
 }
 
 .section-title {
-  position: relative;
+position: relative;
 }
 
 .hero-bg {
-  background-image: linear-gradient(
-      180deg,
-      rgba(10, 14, 10, 0.55) 0%,
-      rgba(10, 14, 10, 0.25) 35%,
-      rgba(10, 14, 10, 0.75) 100%
-    ),
-    url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop');
-  background-size: cover;
-  background-position: center;
+background-image: linear-gradient(
+180deg,
+rgba(10, 14, 10, 0.55) 0%,
+rgba(10, 14, 10, 0.25) 35%,
+rgba(10, 14, 10, 0.75) 100%
+),
+url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop');
+background-size: cover;
+background-position: center;
 }
 
 .card-hover {
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .card-hover:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25);
+transform: translateY(-6px);
+box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25);
 }
 
 .scallop-bottom {
-  -webkit-mask-image: radial-gradient(circle at 30px 0, transparent 29px, black 30px);
-  -webkit-mask-size: 60px 30px;
-  -webkit-mask-repeat: repeat-x;
-  -webkit-mask-position: bottom;
-  mask-image: radial-gradient(circle at 30px 0, transparent 29px, black 30px);
-  mask-size: 60px 30px;
-  mask-repeat: repeat-x;
-  mask-position: bottom;
+-webkit-mask-image: radial-gradient(circle at 30px 0, transparent 29px, black 30px);
+-webkit-mask-size: 60px 30px;
+-webkit-mask-repeat: repeat-x;
+-webkit-mask-position: bottom;
+mask-image: radial-gradient(circle at 30px 0, transparent 29px, black 30px);
+mask-size: 60px 30px;
+mask-repeat: repeat-x;
+mask-position: bottom;
+}
+
+/* ✨ استایل‌های جدید اضافه‌شده */
+.hero-overlay {
+background: linear-gradient(
+180deg,
+rgba(13,18,17,.55) 0%,
+rgba(13,18,17,.35) 38%,
+rgba(13,18,17,.75) 100%
+);
+}
+
+.glass {
+backdrop-filter: blur(10px);
+background: rgba(255,255,255,.85);
+}
+
+/* اسکرول بار سفارشی */
+.filter-scroll::-webkit-scrollbar {
+width: 8px;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb {
+background: #e4dccf;
+border-radius: 999px;
+}
+
+/* ✨ معادل shadow ها */
+.shadow-soft {
+box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+.shadow-card {
+box-shadow: 0 12px 24px rgba(17,17,17,.08);
+}
+
+/* ✨ radius سفارشی */
+.rounded-xl2 {
+border-radius: 1.25rem;
 }
