@@ -1,0 +1,28 @@
+# general  modules
+django >5.2,<5.3
+ 
+djangorestframework
+
+# third party modules
+requests
+django-filter  
+drf-spectacular
+django-cors-headers
+
+# tests
+pytest-django
+
+
+
+# background proccess and cache
+# celery[redis]>5.3,<5.4
+# django-redis
+
+# database client
+psycopg2-binary
+drf_yasg
+
+djangorestframework-simplejwt   
+django-redis    
+kavenegar
+pillow

@@ -1,0 +1,20 @@
+services:
+
+
+  backend:
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
+    container_name: backend
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./Backend:/usr/src/app
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=test
+      - DEBUG=True
+      - SHOW_DEBUGGER_TOOLBAR=True
+    restart: always
+
+
