@@ -39,7 +39,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <button className="hidden sm:flex items-center gap-2 gold-grad text-[#241c0c] text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg hover:brightness-110 transition">
             مشاوره رایگان
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-4 h-4"
               viewBox="0 0 24 24"
@@ -48,10 +48,10 @@ export default function Navbar() {
               stroke-width="2"
             >
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
+            </svg> */}
           </button>
           <button className="w-10 h-10 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/10 transition">
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-4 h-4"
               viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ export default function Navbar() {
             >
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
-            </svg>
+            </svg> */}
           </button>
         </div>
       </div>

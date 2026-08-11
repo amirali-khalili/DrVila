@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SideBar() {
+export default function SideBar({ product }) {
   return (
     <aside className="space-y-4">
       <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_18px_-6px_rgba(0,0,0,0.06)] p-5">
@@ -14,16 +14,18 @@ export default function SideBar() {
               />
             </svg>
           </button>
-          <span className="text-[12px] text-gray-400 mt-2">کد ملک: ۱۳۳۳۵</span>
+          <span className="text-[12px] text-gray-400 mt-2">
+            کد ملک: {product.id}
+          </span>
         </div>
 
         <h1 className="text-[19px] font-bold leading-8 mb-2">
-          ویلای مدرن لاکچری در سهیلیه
+          {product.title}{" "}
         </h1>
-        <p className="text-[13px] text-gray-400 mb-4">سهیلیه، کرج</p>
+        <p className="text-[13px] text-gray-400 mb-4">{product.address}</p>
 
         <p className="text-amber-500 text-[22px] font-extrabold mb-5">
-          ۱۲ میلیارد تومان
+          {product.price} میلیارد تومان
         </p>
 
         <button className="w-full bg-[#141414] hover:bg-black transition text-white text-[14px] font-semibold h-12 rounded-xl flex items-center justify-center gap-2 mb-3">

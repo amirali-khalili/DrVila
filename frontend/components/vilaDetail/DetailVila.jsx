@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function DetailVila() {
+export default function DetailVila({product}) {
   return (
     <section>
       <div className="relative rounded-2xl overflow-hidden h-[400px] group">
@@ -66,9 +66,7 @@ export default function DetailVila() {
           جزئیات ملک
         </h2>
         <p className="text-[14px] text-gray-500 leading-8 mb-8">
-          این ویلای مدرن با طراحی منحصر به فرد و متریال درجه یک در یکی از بهترین
-          نقاط سهیلیه قرار دارد و گزینه‌ای ایده‌آل برای سکونت و سرمایه‌گذاری
-          است.
+          {product.description}
         </p>
 
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-10">
@@ -82,7 +80,7 @@ export default function DetailVila() {
                 />
               </svg>
             </div>
-            <p className="text-[13px] font-bold">۴۰۰ متر</p>
+            <p className="text-[13px] font-bold">{product.land_area} متر</p>
             <p className="text-[11.5px] text-gray-400">متراژ زمین</p>
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
@@ -104,7 +102,7 @@ export default function DetailVila() {
                 />
               </svg>
             </div>
-            <p className="text-[13px] font-bold">۳۸۰ متر</p>
+            <p className="text-[13px] font-bold">{product.building_area} متر</p>
             <p className="text-[11.5px] text-gray-400">متراژ بنا</p>
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
@@ -117,7 +115,7 @@ export default function DetailVila() {
                 />
               </svg>
             </div>
-            <p className="text-[13px] font-bold">۴</p>
+            <p className="text-[13px] font-bold">{product.room_count}</p>
             <p className="text-[11.5px] text-gray-400">اتاق خواب</p>
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
@@ -130,7 +128,7 @@ export default function DetailVila() {
                 />
               </svg>
             </div>
-            <p className="text-[13px] font-bold">۵</p>
+            <p className="text-[13px] font-bold">{product.bathroom_count}</p>
             <p className="text-[11.5px] text-gray-400">سرویس بهداشتی</p>
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
@@ -143,7 +141,7 @@ export default function DetailVila() {
                 />
               </svg>
             </div>
-            <p className="text-[13px] font-bold">۲</p>
+            <p className="text-[13px] font-bold">{product.parking_count}</p>
             <p className="text-[11.5px] text-gray-400">پارکینگ</p>
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
@@ -163,7 +161,7 @@ export default function DetailVila() {
                 />
               </svg>
             </div>
-            <p className="text-[13px] font-bold">۱۴۰۱</p>
+            <p className="text-[13px] font-bold">{product.construction_year}</p>
             <p className="text-[11.5px] text-gray-400">سال ساخت</p>
           </div>
         </div>
