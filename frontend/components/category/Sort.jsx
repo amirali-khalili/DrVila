@@ -123,8 +123,8 @@ export default function Sort() {
     </div>
 
     <section className="mt-10 overflow-hidden rounded-[28px] bg-pine text-white shadow-soft">
-      <div className="grid items-center gap-6 md:grid-cols-[1.1fr_.9fr]">
-        <div className="p-8 md:p-10">
+      <div className="grid items-center gap-6 md:grid-cols-[1.1fr_.9fr] bg-green-950 ">
+        <div className="p-8 md:p-10 ">
           <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-brand-100">مشاوره تخصصی خرید</span>
           <h3 className="mt-4 text-3xl font-extrabold leading-tight">برای خرید ویلا در سهیلیه <br/>به مشاوره نیاز دارید؟</h3>
           <p className="mt-3 max-w-xl text-sm leading-7 text-white/75">کارشناسان دکتر ویلا با شناخت دقیق منطقه، بودجه و هدف سرمایه‌گذاری شما، بهترین گزینه‌ها را گلچین می‌کنند. وقت تلف نکن؛ انتخاب اشتباه توی ملک شوخی نیست.</p>
