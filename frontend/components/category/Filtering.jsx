@@ -206,6 +206,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const PRICE_OPTIONS = [1, 2, 5, 8, 10, 15, 20];
+const AREA_OPTIONS = [200, 500, 1000, 2000, 5000];
 
 const EMPTY_FILTERS = {
   location: "",
@@ -356,6 +357,31 @@ function ModernDropdown({
 }
 
 export default function Filtering() {
+  const changeAreaFilter = (name, value) => {
+  const nextFilters = {
+    ...filtersRef.current,
+    [name]: value,
+  };
+
+  if (
+    name === "min_land" &&
+    nextFilters.max_land &&
+    Number(nextFilters.max_land) <= Number(value)
+  ) {
+    nextFilters.max_land = "";
+  }
+
+  if (
+    name === "min_build" &&
+    nextFilters.max_build &&
+    Number(nextFilters.max_build) <= Number(value)
+  ) {
+    nextFilters.max_build = "";
+  }
+
+  applyFilters(nextFilters, true);
+};
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -461,16 +487,7 @@ export default function Filtering() {
      * اگر کف متراژ انتخاب شود و سقف خالی یا نامعتبر باشد،
      * سقف به‌صورت خودکار ۵۰ متر بیشتر قرار می‌گیرد.
      */
-    if (name === "min_land" && value !== "") {
-      const minimumMaximum = Number(value) + 50;
-
-      if (
-        nextFilters.max_land === "" ||
-        Number(nextFilters.max_land) < minimumMaximum
-      ) {
-        nextFilters.max_land = String(minimumMaximum);
-      }
-    }
+    
 
     if (name === "max_land" && value !== "") {
       const minimumMaximum = Number(nextFilters.min_land || 0) + 50;
@@ -479,16 +496,7 @@ export default function Filtering() {
     }
 
     // همین اعتبارسنجی برای زیربنا نیز اعمال می‌شود
-    if (name === "min_build" && value !== "") {
-      const minimumMaximum = Number(value) + 50;
-
-      if (
-        nextFilters.max_build === "" ||
-        Number(nextFilters.max_build) < minimumMaximum
-      ) {
-        nextFilters.max_build = String(minimumMaximum);
-      }
-    }
+   
 
     if (name === "max_build" && value !== "") {
       const minimumMaximum = Number(nextFilters.min_build || 0) + 50;
@@ -582,6 +590,32 @@ export default function Filtering() {
     { value: "زکی‌آباد", label: "زکی‌آباد" },
   ];
 
+const minimumLandOptions = AREA_OPTIONS.map((area) => ({
+  value: area,
+  label: `${area.toLocaleString("fa-IR")} متر`,
+}));
+
+const maximumLandOptions = AREA_OPTIONS.filter(
+  (area) =>
+    !filters.min_land || area > Number(filters.min_land),
+).map((area) => ({
+  value: area,
+  label: `${area.toLocaleString("fa-IR")} متر`,
+}));
+
+const minimumBuildOptions = AREA_OPTIONS.map((area) => ({
+  value: area,
+  label: `${area.toLocaleString("fa-IR")} متر`,
+}));
+
+const maximumBuildOptions = AREA_OPTIONS.filter(
+  (area) =>
+    !filters.min_build || area > Number(filters.min_build),
+).map((area) => ({
+  value: area,
+  label: `${area.toLocaleString("fa-IR")} متر`,
+}));
+
   return (
     <div className="sticky top-28 rounded-[24px] bg-white shadow-soft">
       <div className="border-b border-gray-100 px-5 py-4">
@@ -643,53 +677,38 @@ export default function Filtering() {
         </div>
 
        <div>
+  {/* متراژ زمین */}
+<div>
   <label className="mb-2 block text-sm font-semibold">
     متراژ زمین (متر)
   </label>
 
   <div className="grid grid-cols-2 gap-3">
-    <input
-      id="minLand"
-      type="number"
-      min="0"
-      max="20000"
-      step="50"
+    <ModernDropdown
+      placeholder="حداقل"
       value={filters.min_land}
-      onChange={(event) =>
-        changeNumberFilter(
-          "min_land",
-          event.target.value === ""
-            ? ""
-            : Math.min(Number(event.target.value), 20000),
-        )
+      options={minimumLandOptions}
+      onChange={(value) =>
+        changeAreaFilter("min_land", value)
       }
-      placeholder="از"
-      className="min-w-0 rounded-2xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-1 focus:ring-brand-100"
     />
 
-    <input
-      id="maxLand"
-      type="number"
-      min={
-        filters.min_land
-          ? Math.min(Number(filters.min_land) + 50, 20000)
-          : 0
+    <ModernDropdown
+      placeholder={
+        filters.min_land === "5000"
+          ? "گزینه‌ای نیست"
+          : "حداکثر"
       }
-      max="20000"
-      step="50"
       value={filters.max_land}
-      onChange={(event) =>
-        changeNumberFilter(
-          "max_land",
-          event.target.value === ""
-            ? ""
-            : Math.min(Number(event.target.value), 20000),
-        )
+      options={maximumLandOptions}
+      disabled={filters.min_land === "5000"}
+      onChange={(value) =>
+        changeAreaFilter("max_land", value)
       }
-      placeholder="تا"
-      className="min-w-0 rounded-2xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-1 focus:ring-brand-100"
     />
   </div>
+</div>
+
 </div>
 
 {/* زیربنا */}
@@ -699,46 +718,27 @@ export default function Filtering() {
   </label>
 
   <div className="grid grid-cols-2 gap-3">
-    <input
-      id="minBuild"
-      type="number"
-      min="0"
-      max="20000"
-      step="50"
+    <ModernDropdown
+      placeholder="حداقل"
       value={filters.min_build}
-      onChange={(event) =>
-        changeNumberFilter(
-          "min_build",
-          event.target.value === ""
-            ? ""
-            : Math.min(Number(event.target.value), 20000),
-        )
+      options={minimumBuildOptions}
+      onChange={(value) =>
+        changeAreaFilter("min_build", value)
       }
-      placeholder="از"
-      className="min-w-0 rounded-2xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-1 focus:ring-brand-100"
     />
 
-    <input
-      id="maxBuild"
-      type="number"
-      min={
-        filters.min_build
-          ? Math.min(Number(filters.min_build) + 50, 20000)
-          : 0
+    <ModernDropdown
+      placeholder={
+        filters.min_build === "5000"
+          ? "گزینه‌ای نیست"
+          : "حداکثر"
       }
-      max="20000"
-      step="50"
       value={filters.max_build}
-      onChange={(event) =>
-        changeNumberFilter(
-          "max_build",
-          event.target.value === ""
-            ? ""
-            : Math.min(Number(event.target.value), 20000),
-        )
+      options={maximumBuildOptions}
+      disabled={filters.min_build === "5000"}
+      onChange={(value) =>
+        changeAreaFilter("max_build", value)
       }
-      placeholder="تا"
-      className="min-w-0 rounded-2xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-1 focus:ring-brand-100"
     />
   </div>
 </div>
