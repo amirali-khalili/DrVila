@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-export default function Box({products}) {
+export default function Box({ products }) {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {products.map((item) => {
@@ -23,22 +23,7 @@ export default function Box({products}) {
                       {tag}
                     </div> */}
 
-              {/* <button className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="1.7"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m21 8.25c0-2.485-2.239-4.5-5-4.5-1.74 0-3.273.8-4.168 2.018C10.94 4.55 9.407 3.75 7.667 3.75c-2.761 0-5 2.015-5 4.5 0 7.22 9.165 11.25 9.165 11.25S21 15.47 21 8.25Z"
-                        />
-                      </svg>
-                    </button> */}
+             
             </div>
 
             <div className="p-5">
