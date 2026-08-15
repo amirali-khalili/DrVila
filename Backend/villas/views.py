@@ -1905,3 +1905,632 @@ class EarthListAPIView(APIView):
             )
 
         return value
+    
+    
+    
+    
+    
+    
+from math import ceil
+
+from drf_spectacular.utils import (
+    extend_schema,
+    OpenApiExample,
+    OpenApiParameter,
+    OpenApiTypes,
+)
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Garden
+from .serializers import (
+    GardenSerializer,
+    GardenListResponseSerializer,
+)
+
+
+class GardenListAPIView(APIView):
+
+    ALLOWED_FEATURES = {
+        "deed",
+        "caretaker",
+        "in_urban_area",
+        "water",
+        "electricity",
+        "gas",
+    }
+
+    ALLOWED_SORTS = {
+        "newest",
+        "price-asc",
+        "price-desc",
+        "land-desc",
+        "land-asc",
+    }
+
+    ALLOWED_LOCATIONS = {
+        "soheiliyeh",
+        "kordan",
+        "aghcheh-hesar",
+        "zakiabad",
+    }
+
+    PER_PAGE = 12
+
+    @extend_schema(
+        summary="List gardens",
+        description=(
+            "Get gardens with filtering, "
+            "sorting and pagination."
+        ),
+        parameters=[
+
+            # =========================
+            # Price
+            # =========================
+
+            OpenApiParameter(
+                name="min_price",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description=(
+                    "Minimum price in billion Toman."
+                ),
+                examples=[
+                    OpenApiExample(
+                        name="5 billion",
+                        value=5,
+                    ),
+                    OpenApiExample(
+                        name="10 billion",
+                        value=10,
+                    ),
+                ],
+            ),
+
+            OpenApiParameter(
+                name="max_price",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description=(
+                    "Maximum price in billion Toman."
+                ),
+                examples=[
+                    OpenApiExample(
+                        name="15 billion",
+                        value=15,
+                    ),
+                    OpenApiExample(
+                        name="20 billion",
+                        value=20,
+                    ),
+                ],
+            ),
+
+            # =========================
+            # Location
+            # =========================
+
+            OpenApiParameter(
+                name="location",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Garden location.",
+                enum=[
+                    "soheiliyeh",
+                    "kordan",
+                    "aghcheh-hesar",
+                    "zakiabad",
+                ],
+            ),
+
+            # =========================
+            # Land
+            # =========================
+
+            OpenApiParameter(
+                name="min_land",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description=(
+                    "Minimum land area "
+                    "in square meters."
+                ),
+                enum=[
+                    200,
+                    500,
+                    1000,
+                    2000,
+                    5000,
+                ],
+            ),
+
+            OpenApiParameter(
+                name="max_land",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description=(
+                    "Maximum land area "
+                    "in square meters."
+                ),
+                enum=[
+                    200,
+                    500,
+                    1000,
+                    2000,
+                    5000,
+                ],
+            ),
+
+            # =========================
+            # Features
+            # =========================
+
+            OpenApiParameter(
+                name="features",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description=(
+                    "Comma-separated features. "
+                    "All selected features must exist."
+                ),
+                examples=[
+                    OpenApiExample(
+                        name="Deed",
+                        value="deed",
+                    ),
+                    OpenApiExample(
+                        name="Deed and water",
+                        value="deed,water",
+                    ),
+                    OpenApiExample(
+                        name="Multiple features",
+                        value=(
+                            "deed,water,"
+                            "electricity,gas"
+                        ),
+                    ),
+                ],
+            ),
+
+            # =========================
+            # Sort
+            # =========================
+
+            OpenApiParameter(
+                name="sort",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description=(
+                    "Sorting method. "
+                    "Default: newest."
+                ),
+                enum=[
+                    "newest",
+                    "price-asc",
+                    "price-desc",
+                    "land-desc",
+                    "land-asc",
+                ],
+            ),
+
+            # =========================
+            # Page
+            # =========================
+
+            OpenApiParameter(
+                name="page",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description=(
+                    "Page number. Default: 1."
+                ),
+            ),
+        ],
+        responses={
+            200: GardenListResponseSerializer,
+            422: {
+                "description": (
+                    "Invalid query parameters."
+                )
+            },
+        },
+    )
+    def get(self, request):
+
+        gardens = Garden.objects.all()
+
+        # ==================================================
+        # Parse integer parameters
+        # ==================================================
+
+        try:
+
+            min_price = self.get_integer_param(
+                request,
+                "min_price",
+            )
+
+            max_price = self.get_integer_param(
+                request,
+                "max_price",
+            )
+
+            min_land = self.get_integer_param(
+                request,
+                "min_land",
+            )
+
+            max_land = self.get_integer_param(
+                request,
+                "max_land",
+            )
+
+            page = self.get_integer_param(
+                request,
+                "page",
+            )
+
+        except ValueError as error:
+
+            return Response(
+                {
+                    "detail": str(error)
+                },
+                status=(
+                    status.HTTP_422_UNPROCESSABLE_ENTITY
+                ),
+            )
+
+        # ==================================================
+        # Pagination
+        # ==================================================
+
+        if page is None:
+            page = 1
+
+        if page < 1:
+
+            return Response(
+                {
+                    "detail": (
+                        "page must be a "
+                        "positive integer."
+                    )
+                },
+                status=(
+                    status.HTTP_422_UNPROCESSABLE_ENTITY
+                ),
+            )
+
+        # ==================================================
+        # Validate price range
+        # ==================================================
+
+        if (
+            min_price is not None
+            and max_price is not None
+            and max_price <= min_price
+        ):
+
+            return Response(
+                {
+                    "detail": (
+                        "max_price must be "
+                        "greater than min_price."
+                    )
+                },
+                status=(
+                    status.HTTP_422_UNPROCESSABLE_ENTITY
+                ),
+            )
+
+        # ==================================================
+        # Validate land range
+        # ==================================================
+
+        if (
+            min_land is not None
+            and max_land is not None
+            and max_land <= min_land
+        ):
+
+            return Response(
+                {
+                    "detail": (
+                        "max_land must be "
+                        "greater than min_land."
+                    )
+                },
+                status=(
+                    status.HTTP_422_UNPROCESSABLE_ENTITY
+                ),
+            )
+
+        # ==================================================
+        # Price filter
+        # ==================================================
+
+        # API:
+        #
+        # min_price=5
+        #
+        # means 5 billion Toman.
+        #
+        # Database:
+        #
+        # price is stored in Toman.
+
+        if min_price is not None:
+
+            gardens = gardens.filter(
+                price__gte=(
+                    min_price 
+                )
+            )
+
+        if max_price is not None:
+
+            gardens = gardens.filter(
+                price__lte=(
+                    max_price 
+                )
+            )
+
+        # ==================================================
+        # Land filter
+        # ==================================================
+
+        if min_land is not None:
+
+            gardens = gardens.filter(
+                land_area__gte=min_land
+            )
+
+        if max_land is not None:
+
+            gardens = gardens.filter(
+                land_area__lte=max_land
+            )
+
+        # ==================================================
+        # Location
+        # ==================================================
+
+        location = request.query_params.get(
+            "location"
+        )
+
+        if location:
+
+            if location not in self.ALLOWED_LOCATIONS:
+
+                return Response(
+                    {
+                        "detail": "Invalid location.",
+                        "allowed_locations": sorted(
+                            self.ALLOWED_LOCATIONS
+                        ),
+                    },
+                    status=(
+                        status.HTTP_422_UNPROCESSABLE_ENTITY
+                    ),
+                )
+
+            gardens = gardens.filter(
+                location=location
+            )
+
+        # ==================================================
+        # Features
+        # ==================================================
+
+        features_param = request.query_params.get(
+            "features"
+        )
+
+        if features_param:
+
+            features = [
+                feature.strip()
+                for feature
+                in features_param.split(",")
+                if feature.strip()
+            ]
+
+            invalid_features = [
+                feature
+                for feature in features
+                if feature not in self.ALLOWED_FEATURES
+            ]
+
+            if invalid_features:
+
+                return Response(
+                    {
+                        "detail": (
+                            "Invalid feature(s)."
+                        ),
+                        "invalid_features": (
+                            invalid_features
+                        ),
+                        "allowed_features": sorted(
+                            self.ALLOWED_FEATURES
+                        ),
+                    },
+                    status=(
+                        status.HTTP_422_UNPROCESSABLE_ENTITY
+                    ),
+                )
+
+            # AND logic
+            #
+            # features=deed,water
+            #
+            # =>
+            #
+            # deed=True
+            # AND
+            # water=True
+
+            for feature in features:
+
+                gardens = gardens.filter(
+                    **{
+                        feature: True
+                    }
+                )
+
+        # ==================================================
+        # Sorting
+        # ==================================================
+
+        sort = request.query_params.get(
+            "sort",
+            "newest",
+        )
+
+        if sort not in self.ALLOWED_SORTS:
+
+            return Response(
+                {
+                    "detail": (
+                        "Invalid sort value."
+                    ),
+                    "allowed_sorts": sorted(
+                        self.ALLOWED_SORTS
+                    ),
+                },
+                status=(
+                    status.HTTP_422_UNPROCESSABLE_ENTITY
+                ),
+            )
+
+        sort_map = {
+
+            "newest": "-created_at",
+
+            "price-asc": "price",
+
+            "price-desc": "-price",
+
+            "land-desc": "-land_area",
+
+            "land-asc": "land_area",
+        }
+
+        # Secondary ordering
+        # for stable pagination
+
+        gardens = gardens.order_by(
+            sort_map[sort],
+            "-id",
+        )
+
+        # ==================================================
+        # Pagination
+        # ==================================================
+
+        total = gardens.count()
+
+        last_page = (
+            ceil(
+                total / self.PER_PAGE
+            )
+            if total > 0
+            else 0
+        )
+
+        if total > 0 and page > last_page:
+
+            return Response(
+                {
+                    "detail": "Page not found."
+                },
+                status=(
+                    status.HTTP_404_NOT_FOUND
+                ),
+            )
+
+        start = (
+            (page - 1)
+            * self.PER_PAGE
+        )
+
+        end = (
+            start
+            + self.PER_PAGE
+        )
+
+        gardens = gardens[start:end]
+
+        # ==================================================
+        # Serialize
+        # ==================================================
+
+        serializer = GardenSerializer(
+            gardens,
+            many=True,
+            context={
+                "request": request
+            },
+        )
+
+        return Response(
+            {
+                "data": serializer.data,
+
+                "pagination": {
+                    "current_page": page,
+                    "per_page": self.PER_PAGE,
+                    "total": total,
+                    "last_page": last_page,
+                },
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    # ======================================================
+    # Helper
+    # ======================================================
+
+    @staticmethod
+    def get_integer_param(
+        request,
+        name,
+    ):
+
+        value = request.query_params.get(
+            name
+        )
+
+        if value is None or value == "":
+            return None
+
+        try:
+
+            value = int(value)
+
+        except (TypeError, ValueError):
+
+            raise ValueError(
+                f"{name} must be a valid integer."
+            )
+
+        if value < 0:
+
+            raise ValueError(
+                f"{name} cannot be negative."
+            )
+
+        return value

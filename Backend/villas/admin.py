@@ -7,4 +7,7 @@ admin.site.register(VillaImage)
 
 admin.site.register(Earth)
 admin.site.register(EarthImage)
+
+admin.site.register(Garden)
+admin.site.register(GardenImage)
 # Register your models here.
