@@ -64,3 +64,47 @@ class EarthListResponseSerializer(serializers.Serializer):
     data = EarthSerializer(many=True)
 
     pagination = serializers.DictField()
+    
+    
+    
+from rest_framework import serializers
+
+from .models import Garden, GardenImage
+
+
+class GardenImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GardenImage
+
+        fields = [
+            "id",
+            "image",
+            "created_at",
+        ]
+
+
+
+class GardenSerializer(serializers.ModelSerializer):
+
+    images = GardenImageSerializer(
+        many=True,
+        read_only=True,
+    )
+
+    class Meta:
+        model = Garden
+
+        fields = "__all__"
+
+
+
+
+class GardenListResponseSerializer(serializers.Serializer):
+
+    data = GardenSerializer(
+        many=True
+    )
+
+    pagination = serializers.DictField()
+    

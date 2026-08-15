@@ -116,3 +116,89 @@ class EarthImage(models.Model):
         return f"{self.villa.title} - image"
     
     
+
+
+from django.db import models
+
+
+class Garden(models.Model):
+
+    LOCATION_CHOICES = [
+        ("soheiliyeh", "سهیلیه"),
+        ("kordan", "کردان"),
+        ("aghcheh-hesar", "آغچه‌حصار"),
+        ("zakiabad", "زکی‌آباد"),
+    ]
+
+    title = models.CharField(
+        max_length=200
+    )
+
+    description = models.TextField()
+
+    location = models.CharField(
+        max_length=50,
+        choices=LOCATION_CHOICES,
+        db_index=True,
+    )
+
+    # Price in Toman
+    price = models.PositiveBigIntegerField()
+
+    poster = models.ImageField(
+        upload_to="gardens/"
+    )
+
+    # Land area in square meters
+    land_area = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+    )
+
+    # =========================
+    # Features
+    # =========================
+
+    deed = models.BooleanField(
+        default=False
+    )
+
+    caretaker = models.BooleanField(
+        default=False
+    )
+
+    in_urban_area = models.BooleanField(
+        default=False
+    )
+
+
+    has_utilities = models.BooleanField(default=False)
+
+
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return self.title
+
+
+class GardenImage(models.Model):
+
+    garden = models.ForeignKey(
+        Garden,
+        on_delete=models.CASCADE,
+        related_name="images",
+    )
+
+    image = models.ImageField(
+        upload_to="gardens/"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f"{self.garden.title} - image"
