@@ -13,7 +13,7 @@ export default function SpecialBuy() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1.8"
+                strokeWidth="1.8"
               >
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               </svg>
@@ -30,7 +30,7 @@ export default function SpecialBuy() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 >
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                 </svg>
@@ -44,7 +44,7 @@ export default function SpecialBuy() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1.8"
+                strokeWidth="1.8"
               >
                 <rect x="3" y="3" width="18" height="18" rx="2" />
                 <path d="M3 9h18M9 21V9" />
@@ -64,7 +64,7 @@ export default function SpecialBuy() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 >
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                 </svg>
@@ -78,7 +78,7 @@ export default function SpecialBuy() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1.8"
+                strokeWidth="1.8"
               >
                 <path d="M11 20A7 7 0 0 1 4 13c0-4 4-9 7-9s7 5 7 9a7 7 0 0 1-7 7Z" />
               </svg>
@@ -95,7 +95,7 @@ export default function SpecialBuy() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 >
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                 </svg>
@@ -124,7 +124,7 @@ export default function SpecialBuy() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
+                strokeWidth="2"
               >
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>

@@ -34,7 +34,7 @@ export default function Box({ products }) {
                 </h3>
 
                 <span className="whitespace-nowrap text-xs text-gray-500">
-                  {item.location}
+                  {item.location_display}
                 </span>
               </div>
 

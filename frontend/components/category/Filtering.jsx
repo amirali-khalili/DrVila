@@ -382,10 +382,10 @@ export default function Filtering() {
     { value: "roof", label: "روف‌گاردن" },
   ];
   const locationOptions = [
-    { value: "سهیلیه", label: "سهیلیه" },
-    { value: "کردان", label: "کردان" },
-    { value: "آغچه‌حصار", label: "آغچه‌حصار" },
-    { value: "زکی‌آباد", label: "زکی‌آباد" },
+    { value: "soheiliyeh", label: "سهیلیه" },
+    { value: "kordan", label: "کردان" },
+    { value: "aghcheh-hesar", label: "آغچه‌حصار" },
+    { value: "zakiabad", label: "زکی‌آباد" },
   ];
 
 const minimumLandOptions = AREA_OPTIONS.map((area) => ({
@@ -547,9 +547,9 @@ const maximumBuildOptions = AREA_OPTIONS.filter(
           <div className="grid grid-cols-3 gap-2 text-sm">
             {[
               { value: "", label: "همه" },
-              { value: "2", label: "۲+" },
-              { value: "3", label: "۳+" },
-              { value: "4", label: "۴+" },
+              { value: "2", label: "۲" },
+              { value: "3", label: "۳" },
+              { value: "4", label: "۴" },
             ].map((bed) => (
               <label
                 key={bed.value || "all"}
