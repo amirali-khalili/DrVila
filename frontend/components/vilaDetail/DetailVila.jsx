@@ -14,7 +14,7 @@ export default function DetailVila({product}) {
             <path
               d="M9 18l6-6-6-6"
               stroke="white"
-              stroke-width="2"
+              strokeWidth="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -76,7 +76,7 @@ export default function DetailVila({product}) {
                 <path
                   d="M3 9l9-7 9 7v11a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"
                   stroke="currentColor"
-                  stroke-width="1.6"
+                  strokeWidth="1.6"
                 />
               </svg>
             </div>
@@ -93,12 +93,12 @@ export default function DetailVila({product}) {
                   height="18"
                   rx="2"
                   stroke="currentColor"
-                  stroke-width="1.6"
+                  strokeWidth="1.6"
                 />
                 <path
                   d="M3 9h18M9 21V9"
                   stroke="currentColor"
-                  stroke-width="1.6"
+                  strokeWidth="1.6"
                 />
               </svg>
             </div>
@@ -111,7 +111,7 @@ export default function DetailVila({product}) {
                 <path
                   d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M5 10V6a2 2 0 0 1 2-2h3v6"
                   stroke="currentColor"
-                  stroke-width="1.6"
+                  strokeWidth="1.6"
                 />
               </svg>
             </div>
@@ -124,7 +124,7 @@ export default function DetailVila({product}) {
                 <path
                   d="M4 12h16M6 12V6a2 2 0 0 1 2-2h1M6 12v8m12-8v8M6 20h12"
                   stroke="currentColor"
-                  stroke-width="1.6"
+                  strokeWidth="1.6"
                 />
               </svg>
             </div>
@@ -137,7 +137,7 @@ export default function DetailVila({product}) {
                 <path
                   d="M5 17h14M5 17v-4h14v4M7 13V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"
                   stroke="currentColor"
-                  stroke-width="1.6"
+                  strokeWidth="1.6"
                 />
               </svg>
             </div>
@@ -150,14 +150,14 @@ export default function DetailVila({product}) {
                 <path
                   d="M12 8v4l3 3"
                   stroke="currentColor"
-                  stroke-width="1.6"
+                  strokeWidth="1.6"
                 />
                 <circle
                   cx="12"
                   cy="12"
                   r="9"
                   stroke="currentColor"
-                  stroke-width="1.6"
+                  strokeWidth="1.6"
                 />
               </svg>
             </div>
@@ -181,9 +181,9 @@ export default function DetailVila({product}) {
               <path
                 d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
-              <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" />
+              <path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5" />
             </svg>
             سند تک برگ
           </span>
@@ -202,9 +202,9 @@ export default function DetailVila({product}) {
                 height="16"
                 rx="2"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
-              <path d="M3 9h18" stroke="currentColor" stroke-width="1.5" />
+              <path d="M3 9h18" stroke="currentColor" strokeWidth="1.5" />
             </svg>
             سند تک برگ
           </span>
@@ -219,7 +219,7 @@ export default function DetailVila({product}) {
               <path
                 d="M12 2C9 6 6 9 6 13a6 6 0 0 0 12 0c0-4-3-7-6-11z"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </svg>
             گرمایش از کف
@@ -235,7 +235,7 @@ export default function DetailVila({product}) {
               <path
                 d="M3 21h18M5 21V9l7-5 7 5v12"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </svg>
             کیفیت و آشپزخانه
@@ -253,12 +253,12 @@ export default function DetailVila({product}) {
                 cy="12"
                 r="9"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
               <path
                 d="M8 12h8M12 8v8"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </svg>
             سونا و جکوزی
@@ -274,7 +274,7 @@ export default function DetailVila({product}) {
               <path
                 d="M3 16c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0M4 10h16v4H4z"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </svg>
             استخر

@@ -382,10 +382,10 @@ export default function Filtering() {
     { value: "roof", label: "روف‌گاردن" },
   ];
   const locationOptions = [
-    { value: "سهیلیه", label: "سهیلیه" },
-    { value: "کردان", label: "کردان" },
-    { value: "آغچه‌حصار", label: "آغچه‌حصار" },
-    { value: "زکی‌آباد", label: "زکی‌آباد" },
+    { value: "soheiliyeh", label: "سهیلیه" },
+    { value: "kordan", label: "کردان" },
+    { value: "aghcheh-hesar", label: "آغچه‌حصار" },
+    { value: "zakiabad", label: "زکی‌آباد" },
   ];
 
 const minimumLandOptions = AREA_OPTIONS.map((area) => ({
