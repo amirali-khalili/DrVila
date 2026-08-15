@@ -1,12 +1,12 @@
-import Box from "@/components/category/earth/Box";
-import Filtering from "@/components/category/earth/Filtering";
-import Header from "@/components/category/earth/Header";
-import Moshavere from "@/components/category/earth/Moshavere";
-import Sorting from "@/components/category/earth/Sorting";
+import Box from "@/components/category/gardens/Box";
+import Filtering from "@/components/category/gardens/Filtering";
+import Header from "@/components/category/gardens/Header";
+import Moshavere from "@/components/category/gardens/Moshavere";
+import Sorting from "@/components/category/gardens/Sorting";
 import Link from "next/link";
 
 const API_URL =
-  "http://localhost:8000/api/v1/eathes/";
+  "http://localhost:8000/api/v1/gardens/";
 
 const ALLOWED_FILTERS = [
   "location",
@@ -210,11 +210,11 @@ export default async function Page({
                 </div>
 
                 <h3 className="text-xl font-bold">
-                  زمینی پیدا نشد
+                  باغی پیدا نشد
                 </h3>
 
                 <p className="mt-2 text-sm leading-7 text-gray-500">
-                  زمینی مطابق فیلترهای
+                  باغی مطابق فیلترهای
                   انتخاب‌شده پیدا نشد. بعضی از
                   فیلترها را پاک کن و دوباره
                   امتحان کن.

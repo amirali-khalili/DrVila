@@ -7,7 +7,8 @@ import React from "react";
 const NAV_LINKS = [
   { href: "/", label: "خانه" },
   { href: "/villas", label: "خرید ویلا" },
-  { href: "/earth", label: "خرید زمین" },
+  { href: "/earths", label: "خرید زمین" },
+  { href: "/gardens", label: "خرید باغ" },
   { href: "/aboutUs", label: "درباره ما" },
   { href: "/contactUs", label: "تماس با ما" },
 ];
