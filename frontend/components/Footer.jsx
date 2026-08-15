@@ -150,7 +150,7 @@ export default function Footer() {
       </div>
 
       <button
-        onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        onClick="window.scrollTo({top:0,behavior:'smooth'})"
         className="fixed bottom-6 left-6 w-11 h-11 rounded-full border border-[var(--gold)] text-[var(--gold-light)] flex items-center justify-center bg-[#171a16] shadow-lg hover:bg-[var(--gold)] hover:text-[#171a16] transition"
       >
         <svg

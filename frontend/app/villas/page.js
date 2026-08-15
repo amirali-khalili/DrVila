@@ -1,8 +1,8 @@
-import Box from "@/components/category/Box";
-import Filtering from "@/components/category/Filtering";
-import Header from "@/components/category/Header";
-import Moshavere from "@/components/category/Moshavere";
-import Sorting from "@/components/category/Sorting";
+import Box from "@/components/category/villas/Box";
+import Filtering from "@/components/category/villas/Filtering";
+import Header from "@/components/category/villas/Header";
+import Moshavere from "@/components/category/villas/Moshavere";
+import Sorting from "@/components/category/villas/Sorting";
 import Link from "next/link";
 
 const ALLOWED_FILTERS = [
@@ -40,8 +40,8 @@ async function getProducts(filters) {
   const queryString = apiParams.toString();
 
   const apiUrl = queryString
-    ? `http://localhost:8000/api/villas/?${queryString}`
-    : "http://localhost:8000/api/villas/";
+    ? `http://localhost:8000/api/v1/villas/?${queryString}`
+    : "http://localhost:8000/api/v1/villas/";
 
   const res = await fetch(apiUrl, {
     cache: "no-store",
@@ -58,10 +58,7 @@ async function getProducts(filters) {
 function createPaginationItems(currentPage, lastPage) {
   // اگر تعداد صفحات ۵ یا کمتر باشد، همه را نمایش بده
   if (lastPage <= 5) {
-    return Array.from(
-      { length: lastPage },
-      (_, index) => index + 1,
-    );
+    return Array.from({ length: lastPage }, (_, index) => index + 1);
   }
 
   const pages = new Set([
@@ -93,10 +90,7 @@ function createPaginationItems(currentPage, lastPage) {
   validPages.forEach((page, index) => {
     const previousPage = validPages[index - 1];
 
-    if (
-      index > 0 &&
-      page - previousPage > 1
-    ) {
+    if (index > 0 && page - previousPage > 1) {
       paginationItems.push(`ellipsis-${previousPage}`);
     }
 
@@ -112,16 +106,11 @@ export default async function Page({ searchParams }) {
 
   const productItems = products?.data ?? [];
 
-  const currentPage =
-    Number(products?.pagination?.current_page) || 1;
+  const currentPage = Number(products?.pagination?.current_page) || 1;
 
-  const lastPage =
-    Number(products?.pagination?.last_page) || 1;
+  const lastPage = Number(products?.pagination?.last_page) || 1;
 
-  const paginationItems = createPaginationItems(
-    currentPage,
-    lastPage,
-  );
+  const paginationItems = createPaginationItems(currentPage, lastPage);
 
   const createPageHref = (page) => {
     const params = new URLSearchParams();
@@ -151,9 +140,7 @@ export default async function Page({ searchParams }) {
       <Header />
 
       <main className="mx-auto max-w-7xl px-4 py-8 lg:px-6 lg:py-10">
-        <Sorting
-          count={products?.pagination?.total ?? 0}
-        />
+        <Sorting count={products?.pagination?.total ?? 0} />
 
         <div className="grid gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
           <aside className="order-2 lg:order-1">
@@ -180,13 +167,11 @@ export default async function Page({ searchParams }) {
                   </svg>
                 </div>
 
-                <h3 className="text-xl font-bold">
-                  ملکی پیدا نشد
-                </h3>
+                <h3 className="text-xl font-bold">ملکی پیدا نشد</h3>
 
                 <p className="mt-2 text-sm leading-7 text-gray-500">
-                  فیلترها خیلی سفت و سخت شده‌اند. کمی شل کن
-                  تا نتایج واقعی ببینی.
+                  فیلترها خیلی سفت و سخت شده‌اند. کمی شل کن تا نتایج واقعی
+                  ببینی.
                 </p>
               </div>
             ) : (

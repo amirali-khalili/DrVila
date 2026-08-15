@@ -1,0 +1,588 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+
+const PRICE_OPTIONS = [1, 2, 5, 8, 10, 15, 20];
+
+const AREA_OPTIONS = [
+  200,
+  500,
+  1000,
+  2000,
+  5000,
+];
+
+const EMPTY_FILTERS = {
+  location: "",
+  min_price: "",
+  max_price: "",
+  min_land: "",
+  max_land: "",
+  features: [],
+};
+
+const FILTER_KEYS = [
+  "location",
+  "min_price",
+  "max_price",
+  "min_land",
+  "max_land",
+  "features",
+];
+
+function ModernDropdown({
+  placeholder,
+  value,
+  options,
+  onChange,
+  disabled = false,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const selectedOption = options.find(
+    (option) =>
+      String(option.value) === String(value),
+  );
+
+  useEffect(() => {
+    const closeDropdown = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      closeDropdown,
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        closeDropdown,
+      );
+    };
+  }, []);
+
+  return (
+    <div ref={dropdownRef} className="relative min-w-0">
+      <button
+        type="button"
+        disabled={disabled}
+        aria-expanded={isOpen}
+        onClick={() =>
+          setIsOpen((previous) => !previous)
+        }
+        className={`flex w-full cursor-pointer items-center justify-between gap-2 rounded-2xl border px-3 py-3 text-right text-sm transition-colors ${
+          isOpen
+            ? "border-brand-400 bg-brand-50/50"
+            : "border-gray-200 bg-white hover:border-brand-300 hover:bg-brand-50/30"
+        } ${
+          disabled
+            ? "cursor-not-allowed bg-gray-50 text-gray-400"
+            : "text-gray-700"
+        }`}
+      >
+        <span className="min-w-0 flex-1 whitespace-nowrap">
+          {selectedOption?.label ?? placeholder}
+        </span>
+
+        <svg
+          className={`h-4 w-4 shrink-0 transition-transform ${
+            isOpen
+              ? "rotate-180 text-brand-600"
+              : "text-gray-400"
+          }`}
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+
+      {isOpen && !disabled && (
+        <div className="absolute right-0 top-full z-50 mt-2 min-w-full overflow-hidden rounded-2xl border border-gray-200 bg-white p-2 shadow-[0_18px_50px_rgba(34,76,60,0.16)]">
+          <button
+            type="button"
+            onClick={() => {
+              onChange("");
+              setIsOpen(false);
+            }}
+            className={`flex w-full cursor-pointer items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2.5 text-right text-sm transition-colors ${
+              value === ""
+                ? "bg-brand-50 font-semibold text-brand-700"
+                : "text-gray-600 hover:bg-brand-50 hover:text-brand-700"
+            }`}
+          >
+            <span>{placeholder}</span>
+
+            {value === "" && (
+              <span className="h-2 w-2 shrink-0 rounded-full bg-brand-500" />
+            )}
+          </button>
+
+          {options.map((option) => {
+            const isSelected =
+              String(option.value) === String(value);
+
+            return (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  onChange(String(option.value));
+                  setIsOpen(false);
+                }}
+                className={`flex w-full cursor-pointer items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2.5 text-right text-sm transition-colors ${
+                  isSelected
+                    ? "bg-brand-50 font-semibold text-brand-700"
+                    : "text-gray-700 hover:bg-brand-100 hover:text-brand-800"
+                }`}
+              >
+                <span>{option.label}</span>
+
+                {isSelected && (
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-500 text-xs text-white">
+                    ✓
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function Filtering() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const readFiltersFromUrl = () => ({
+    location:
+      searchParams.get("location") ?? "",
+
+    min_price:
+      searchParams.get("min_price") ?? "",
+
+    max_price:
+      searchParams.get("max_price") ?? "",
+
+    min_land:
+      searchParams.get("min_land") ?? "",
+
+    max_land:
+      searchParams.get("max_land") ?? "",
+
+    features: searchParams.get("features")
+      ? searchParams
+          .get("features")
+          .split(",")
+          .filter(Boolean)
+      : [],
+  });
+
+  const [filters, setFilters] = useState(
+    readFiltersFromUrl,
+  );
+
+  const filtersRef = useRef(filters);
+
+  const updateUrl = (nextFilters) => {
+    /*
+     * پارامترهای قبلی مثل sort را نگه می‌داریم
+     * و فقط فیلترهای مربوط به زمین را تغییر می‌دهیم.
+     */
+    const params = new URLSearchParams(
+      searchParams.toString(),
+    );
+
+    FILTER_KEYS.forEach((key) => {
+      params.delete(key);
+    });
+
+    Object.entries(nextFilters).forEach(
+      ([key, value]) => {
+        if (key === "features") {
+          if (value.length > 0) {
+            params.set(
+              "features",
+              value.join(","),
+            );
+          }
+
+          return;
+        }
+
+        if (value !== "") {
+          params.set(key, String(value));
+        }
+      },
+    );
+
+    // با تغییر فیلتر به صفحه اول برگردد
+    params.delete("page");
+
+    const queryString = params.toString();
+
+    router.replace(
+      queryString
+        ? `${pathname}?${queryString}`
+        : pathname,
+      {
+        scroll: false,
+      },
+    );
+  };
+
+  const applyFilters = (nextFilters) => {
+    filtersRef.current = nextFilters;
+    setFilters(nextFilters);
+    updateUrl(nextFilters);
+  };
+
+  const changeFilter = (name, value) => {
+    const nextFilters = {
+      ...filtersRef.current,
+      [name]: value,
+    };
+
+    /*
+     * اگر حداکثر قیمت از حداقل کمتر یا مساوی شد،
+     * حداکثر پاک شود.
+     */
+    if (
+      name === "min_price" &&
+      nextFilters.max_price !== "" &&
+      Number(nextFilters.max_price) <= Number(value)
+    ) {
+      nextFilters.max_price = "";
+    }
+
+    applyFilters(nextFilters);
+  };
+
+  const changeAreaFilter = (name, value) => {
+    const nextFilters = {
+      ...filtersRef.current,
+      [name]: value,
+    };
+
+    /*
+     * اگر حداکثر متراژ از حداقل کمتر یا مساوی شد،
+     * حداکثر پاک شود.
+     */
+    if (
+      name === "min_land" &&
+      nextFilters.max_land !== "" &&
+      Number(nextFilters.max_land) <= Number(value)
+    ) {
+      nextFilters.max_land = "";
+    }
+
+    applyFilters(nextFilters);
+  };
+
+  const toggleFeature = (feature) => {
+    const currentFeatures =
+      filtersRef.current.features;
+
+    const features = currentFeatures.includes(feature)
+      ? currentFeatures.filter(
+          (item) => item !== feature,
+        )
+      : [...currentFeatures, feature];
+
+    applyFilters({
+      ...filtersRef.current,
+      features,
+    });
+  };
+
+  const resetFilters = () => {
+    const emptyFilters = {
+      ...EMPTY_FILTERS,
+      features: [],
+    };
+
+    filtersRef.current = emptyFilters;
+    setFilters(emptyFilters);
+
+    const params = new URLSearchParams(
+      searchParams.toString(),
+    );
+
+    FILTER_KEYS.forEach((key) => {
+      params.delete(key);
+    });
+
+    params.delete("page");
+
+    const queryString = params.toString();
+
+    router.replace(
+      queryString
+        ? `${pathname}?${queryString}`
+        : pathname,
+      {
+        scroll: false,
+      },
+    );
+  };
+
+  /*
+   * هنگام Back و Forward مرورگر،
+   * مقادیر فیلترها با URL هماهنگ می‌شوند.
+   */
+  useEffect(() => {
+    const urlFilters = readFiltersFromUrl();
+
+    filtersRef.current = urlFilters;
+    setFilters(urlFilters);
+  }, [searchParams]);
+
+  const minimumPriceOptions =
+    PRICE_OPTIONS.map((price) => ({
+      value: price,
+      label: `از ${price.toLocaleString(
+        "fa-IR",
+      )} میلیارد`,
+    }));
+
+  const maximumPriceOptions =
+    PRICE_OPTIONS.filter((price) => {
+      if (!filters.min_price) {
+        return true;
+      }
+
+      return price > Number(filters.min_price);
+    }).map((price) => ({
+      value: price,
+      label: `تا ${price.toLocaleString(
+        "fa-IR",
+      )} میلیارد`,
+    }));
+
+  const minimumLandOptions =
+    AREA_OPTIONS.map((area) => ({
+      value: area,
+      label: `${area.toLocaleString(
+        "fa-IR",
+      )} متر`,
+    }));
+
+  const maximumLandOptions =
+    AREA_OPTIONS.filter((area) => {
+      if (!filters.min_land) {
+        return true;
+      }
+
+      return area > Number(filters.min_land);
+    }).map((area) => ({
+      value: area,
+      label: `${area.toLocaleString(
+        "fa-IR",
+      )} متر`,
+    }));
+
+  const locationOptions = [
+    {
+      value: "soheiliyeh",
+      label: "سهیلیه",
+    },
+    {
+      value: "kordan",
+      label: "کردان",
+    },
+    {
+      value: "aghcheh-hesar",
+      label: "آغچه‌حصار",
+    },
+    {
+      value: "zakiabad",
+      label: "زکی‌آباد",
+    },
+  ];
+
+  const featureOptions = [
+    {
+      value: "deed",
+      label: "سنددار",
+    },
+    {
+      value: "caretaker",
+      label: "سرایداری",
+    },
+    {
+      value: "in_urban_area",
+      label: "داخل بافت",
+    },
+    {
+      value: "has_utilities",
+      label: "دارای آب، برق و گاز",
+    },
+  ];
+
+  return (
+    <div className="sticky top-28 rounded-[24px] bg-white shadow-soft">
+      <div className="border-b border-gray-100 px-5 py-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-bold">
+            فیلترها
+          </h3>
+
+          <button
+            type="button"
+            onClick={resetFilters}
+            className="cursor-pointer rounded-full border border-transparent px-4 py-2 text-sm font-medium text-brand-600 transition-all duration-200 hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 hover:ring-1 hover:ring-brand-200"
+          >
+            پاک کردن
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-6 px-5 py-5">
+        {/* منطقه */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold">
+            منطقه
+          </label>
+
+          <ModernDropdown
+            placeholder="همه مناطق"
+            value={filters.location}
+            options={locationOptions}
+            onChange={(value) =>
+              changeFilter("location", value)
+            }
+          />
+        </div>
+
+        {/* بازه قیمت */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold">
+            بازه قیمت (میلیارد تومان)
+          </label>
+
+          <div className="grid grid-cols-2 gap-3">
+            <ModernDropdown
+              placeholder="حداقل"
+              value={filters.min_price}
+              options={minimumPriceOptions}
+              onChange={(value) =>
+                changeFilter("min_price", value)
+              }
+            />
+
+            <ModernDropdown
+              placeholder="حداکثر"
+              value={filters.max_price}
+              options={maximumPriceOptions}
+              onChange={(value) =>
+                changeFilter("max_price", value)
+              }
+            />
+          </div>
+        </div>
+
+        {/* متراژ زمین */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold">
+            متراژ زمین (متر)
+          </label>
+
+          <div className="grid grid-cols-2 gap-3">
+            <ModernDropdown
+              placeholder="حداقل"
+              value={filters.min_land}
+              options={minimumLandOptions}
+              onChange={(value) =>
+                changeAreaFilter(
+                  "min_land",
+                  value,
+                )
+              }
+            />
+
+            <ModernDropdown
+              placeholder={
+                filters.min_land === "5000"
+                  ? "گزینه‌ای نیست"
+                  : "حداکثر"
+              }
+              value={filters.max_land}
+              options={maximumLandOptions}
+              disabled={
+                filters.min_land === "5000"
+              }
+              onChange={(value) =>
+                changeAreaFilter(
+                  "max_land",
+                  value,
+                )
+              }
+            />
+          </div>
+        </div>
+
+        {/* ویژگی‌های زمین */}
+        <div>
+          <label className="mb-3 block text-sm font-semibold">
+            ویژگی‌ها
+          </label>
+
+          <div className="space-y-3 text-sm text-gray-700">
+            {featureOptions.map((feature) => {
+              const isChecked =
+                filters.features.includes(
+                  feature.value,
+                );
+
+              return (
+                <label
+                  key={feature.value}
+                  className={`flex cursor-pointer items-center justify-between rounded-2xl border px-4 py-3 transition ${
+                    isChecked
+                      ? "border-brand-300 bg-brand-50 text-brand-800"
+                      : "border-gray-100 hover:border-brand-200"
+                  }`}
+                >
+                  <span>{feature.label}</span>
+
+                  <input
+                    type="checkbox"
+                    value={feature.value}
+                    checked={isChecked}
+                    onChange={() =>
+                      toggleFeature(feature.value)
+                    }
+                    className="h-4 w-4 accent-brand-600"
+                  />
+                </label>
+              );
+            })}
+          </div>
+        </div>
+
+        <p className="rounded-2xl bg-mist px-4 py-3 text-center text-xs leading-6 text-gray-500">
+          تغییرات فیلتر به‌صورت خودکار اعمال می‌شوند.
+        </p>
+      </div>
+    </div>
+  );
+}
