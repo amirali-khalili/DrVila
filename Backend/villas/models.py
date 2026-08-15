@@ -16,7 +16,15 @@ class Villa(models.Model):
     parking_count = models.PositiveIntegerField(null=True,blank=True)
     construction_year = models.PositiveIntegerField(null=True,blank=True)   
     
-    features = models.JSONField(default=list, blank=True)
+    # Features
+    pool = models.BooleanField(default=False)
+    deed = models.BooleanField(default=False)
+    furnished = models.BooleanField(default=False)
+    caretaker = models.BooleanField(default=False)
+    roof = models.BooleanField(default=False)
+    
+    
+    
     
     created_at = models.DateTimeField(auto_now_add=True)
 

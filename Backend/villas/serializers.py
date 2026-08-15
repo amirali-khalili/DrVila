@@ -8,25 +8,16 @@ class VillaImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'image']
 
 
+
 class VillaSerializer(serializers.ModelSerializer):
     images = VillaImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Villa
-        fields = [
-            'id',
-            'title',
-            'description',
-            'address',
-            'price',
-            'poster',
-            'land_area',
-            'building_area',
-            'room_count',
-            'bathroom_count',
-            'parking_count',
-            'construction_year',
-            'features',
-            'images',
-            'created_at',
-        ]
+        fields = "__all__"
+
+
+class VillaListResponseSerializer(serializers.Serializer):
+    data = VillaSerializer(many=True)
+
+    pagination = serializers.DictField()
