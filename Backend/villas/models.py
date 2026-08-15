@@ -3,9 +3,21 @@ from django.db import models
 
 
 class Villa(models.Model):
+    
+    LOCATION_CHOICES = [
+        ("soheiliyeh", "سهیلیه"),
+        ("kordan", "کردان"),
+        ("aghcheh-hesar", "آغچه‌حصار"),
+        ("zakiabad", "زکی‌آباد"),
+    ]
     title = models.CharField(max_length=200)
     description = models.TextField()
-    address = models.CharField(max_length=300)
+
+    location = models.CharField(
+        max_length=50,
+        choices=LOCATION_CHOICES,
+        db_index=True,
+    )
     price = models.PositiveIntegerField()
     poster = models.ImageField(upload_to='villas/')
     
