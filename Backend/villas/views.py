@@ -45,6 +45,12 @@ class VillaListAPIView(APIView):
         "build-desc",
         "build-asc",
     }
+    ALLOWED_LOCATIONS = {
+    "soheiliyeh",
+    "kordan",
+    "aghcheh-hesar",
+    "zakiabad",
+}
 
     PER_PAGE = 12
 
@@ -75,6 +81,19 @@ class VillaListAPIView(APIView):
                         name="10 billion",
                         value=10,
                     ),
+                ],
+            ),
+            OpenApiParameter(
+                name="location",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Villa location.",
+                enum=[
+                    "soheiliyeh",
+                    "kordan",
+                    "aghcheh-hesar",
+                    "zakiabad",
                 ],
             ),
 
@@ -416,12 +435,12 @@ class VillaListAPIView(APIView):
 
         if min_price is not None:
             villas = villas.filter(
-                price__gte=min_price * 1_000_000_000
+                price__gte=min_price 
             )
 
         if max_price is not None:
             villas = villas.filter(
-                price__lte=max_price * 1_000_000_000
+                price__lte=max_price 
             )
 
         # ==================================================
@@ -437,7 +456,26 @@ class VillaListAPIView(APIView):
             villas = villas.filter(
                 land_area__lte=max_land
             )
+        # ==================================================
+        # LOCATION
+        # ==================================================
+        location = request.query_params.get("location")
 
+        if location:
+            if location not in self.ALLOWED_LOCATIONS:
+                return Response(
+                    {
+                        "detail": "Invalid location.",
+                        "allowed_locations": sorted(
+                            self.ALLOWED_LOCATIONS
+                        ),
+                    },
+                    status=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                )
+
+            villas = villas.filter(
+                location=location
+            )
         # ==================================================
         # Building filter
         # ==================================================
