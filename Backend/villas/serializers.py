@@ -11,10 +11,14 @@ class VillaImageSerializer(serializers.ModelSerializer):
 
 class VillaSerializer(serializers.ModelSerializer):
     images = VillaImageSerializer(many=True, read_only=True)
+    location_display = serializers.SerializerMethodField()
 
     class Meta:
         model = Villa
         fields = "__all__"
+
+    def get_location_display(self, obj):
+        return obj.get_location_display()
 
 
 class VillaListResponseSerializer(serializers.Serializer):
