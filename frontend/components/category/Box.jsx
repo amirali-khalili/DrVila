@@ -2,9 +2,10 @@ import Link from "next/link";
 import React from "react";
 
 export default function Box({ products }) {
+  console.log(products)
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {products.map((item) => {
+      {products.data.map((item) => {
         // const tag = item.tags[0] || "ویلا";
 
         return (
@@ -55,25 +56,25 @@ export default function Box({ products }) {
               </div>
 
               <div className="mt-4 flex flex-wrap gap-2 text-xs">
-                {item.features.includes("pool") && (
+                {item.pool && (
                   <span className="rounded-full bg-blue-50 px-3 py-1 text-blue-700">
                     استخر
                   </span>
                 )}
 
-                {item.features.includes("deed") && (
+                {item.deed && (
                   <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-700">
                     سنددار
                   </span>
                 )}
 
-                {item.features.includes("furnished") && (
+                {item.furnished && (
                   <span className="rounded-full bg-purple-50 px-3 py-1 text-purple-700">
                     مبله
                   </span>
                 )}
 
-                {item.features.includes("roof") && (
+                {item.roof && (
                   <span className="rounded-full bg-amber-50 px-3 py-1 text-amber-700">
                     روف‌گاردن
                   </span>
