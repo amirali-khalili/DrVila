@@ -416,12 +416,12 @@ class VillaListAPIView(APIView):
 
         if min_price is not None:
             villas = villas.filter(
-                price__gte=min_price * 1_000_000_000
+                price__gte=min_price 
             )
 
         if max_price is not None:
             villas = villas.filter(
-                price__lte=max_price * 1_000_000_000
+                price__lte=max_price 
             )
 
         # ==================================================
