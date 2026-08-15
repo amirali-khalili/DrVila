@@ -58,3 +58,61 @@ class VillaImage(models.Model):
         return f"{self.villa.title} - image"
     
     
+
+
+
+
+class Earth(models.Model):
+    
+    LOCATION_CHOICES = [
+        ("soheiliyeh", "سهیلیه"),
+        ("kordan", "کردان"),
+        ("aghcheh-hesar", "آغچه‌حصار"),
+        ("zakiabad", "زکی‌آباد"),
+    ]
+    
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+
+    location = models.CharField(
+        max_length=50,
+        choices=LOCATION_CHOICES,
+        db_index=True,
+    )
+    
+    price = models.PositiveIntegerField()
+    poster = models.ImageField(upload_to='villas/')
+    
+    land_area = models.PositiveIntegerField(null=True,blank=True)
+    
+    # Features
+    deed = models.BooleanField(default=False)
+    
+    caretaker = models.BooleanField(default=False)
+    
+    in_urban_area = models.BooleanField(default=False)
+    has_utilities = models.BooleanField(default=False)
+    
+    
+    
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+    
+    
+
+class EarthImage(models.Model):
+    earth = models.ForeignKey(
+        Earth,
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = models.ImageField(upload_to='villas/')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.villa.title} - image"
+    
+    
