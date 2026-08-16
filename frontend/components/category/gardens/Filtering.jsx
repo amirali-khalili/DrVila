@@ -11,9 +11,6 @@ const FILTER_KEYS = [
   "max_price",
   "min_land",
   "max_land",
-  "min_build",
-  "max_build",
-  "beds",
   "features",
 ];
 const EMPTY = {
@@ -22,9 +19,6 @@ const EMPTY = {
   max_price: "",
   min_land: "",
   max_land: "",
-  min_build: "",
-  max_build: "",
-  beds: "",
   features: [],
 };
 const LOCATIONS = [
@@ -34,11 +28,10 @@ const LOCATIONS = [
   { value: "zakiabad", label: "زکی‌آباد" },
 ];
 const FEATURES = [
-  { value: "pool", label: "استخر" },
   { value: "deed", label: "سنددار" },
-  { value: "furnished", label: "مبله" },
   { value: "caretaker", label: "سرایداری" },
-  { value: "roof", label: "روف‌گاردن" },
+  { value: "in_urban_area", label: "داخل بافت" },
+  { value: "has_utilities", label: "دارای آب، برق و گاز" },
 ];
 
 function FilterIcon({ className = "h-5 w-5" }) {
@@ -176,9 +169,6 @@ function readFromParams(searchParams) {
     max_price: searchParams.get("max_price") || "",
     min_land: searchParams.get("min_land") || "",
     max_land: searchParams.get("max_land") || "",
-    min_build: searchParams.get("min_build") || "",
-    max_build: searchParams.get("max_build") || "",
-    beds: searchParams.get("beds") || "",
     features: (searchParams.get("features") || "").split(",").filter(Boolean),
   };
 }
@@ -200,12 +190,17 @@ export default function Filtering({ mobile = false }) {
     };
   }, [isOpen, mobile]);
 
-  const activeCount = FILTER_KEYS.reduce(
-    (total, key) =>
-      total +
-      (key === "features" ? filters.features.length : filters[key] ? 1 : 0),
-    0
-  );
+  // فقط فیلترهایی شمرده می‌شوند که واقعاً در URL اعمال شده‌اند.
+  const appliedFilterCount = FILTER_KEYS.reduce((total, key) => {
+    if (key === "features") {
+      return (
+        total +
+        (searchParams.get("features") || "").split(",").filter(Boolean).length
+      );
+    }
+
+    return total + (searchParams.get(key) ? 1 : 0);
+  }, 0);
 
   const writeUrl = (next) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -236,12 +231,6 @@ export default function Filtering({ mobile = false }) {
       Number(next.max_land) <= Number(value)
     )
       next.max_land = "";
-    if (
-      name === "min_build" &&
-      next.max_build &&
-      Number(next.max_build) <= Number(value)
-    )
-      next.max_build = "";
     setFilters(next);
     if (!mobile) writeUrl(next);
   };
@@ -318,7 +307,6 @@ export default function Filtering({ mobile = false }) {
 
       {[
         { title: "متراژ زمین (متر)", min: "min_land", max: "max_land" },
-        { title: "زیربنا (متر)", min: "min_build", max: "max_build" },
       ].map((group) => (
         <div key={group.min}>
           <h4 className="mb-2 text-sm font-semibold">{group.title}</h4>
@@ -349,31 +337,6 @@ export default function Filtering({ mobile = false }) {
           </div>
         </div>
       ))}
-
-      <div>
-        <h4 className="mb-3 text-sm font-semibold">تعداد خواب</h4>
-        <div className="grid grid-cols-4 gap-2">
-          {[
-            { value: "", label: "همه" },
-            { value: "2", label: "۲" },
-            { value: "3", label: "۳" },
-            { value: "4", label: "۴" },
-          ].map((bed) => (
-            <button
-              key={bed.value || "all"}
-              type="button"
-              onClick={() => change("beds", bed.value)}
-              className={`rounded-xl border py-2.5 text-sm ${
-                filters.beds === bed.value
-                  ? "border-brand-400 bg-brand-50 font-bold text-brand-700"
-                  : "border-gray-200 text-gray-600"
-              }`}
-            >
-              {bed.label}
-            </button>
-          ))}
-        </div>
-      </div>
 
       <div>
         <h4 className="mb-3 text-sm font-semibold">ویژگی‌ها</h4>
@@ -407,16 +370,16 @@ export default function Filtering({ mobile = false }) {
             setIsOpen(true);
           }}
           className={`relative flex h-11 flex-1 items-center justify-center gap-2 rounded-2xl border bg-white px-3 text-xs font-semibold shadow-sm ${
-            activeCount
+            appliedFilterCount
               ? "border-brand-400 text-brand-700"
               : "border-gray-200 text-gray-700"
           }`}
         >
           <FilterIcon />
           <span>فیلترها</span>
-          {activeCount > 0 && (
+          {appliedFilterCount > 0 && (
             <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-500 px-1 text-[10px] text-white">
-              {activeCount.toLocaleString("fa-IR")}
+              {appliedFilterCount.toLocaleString("fa-IR")}
             </span>
           )}
         </button>
@@ -426,7 +389,7 @@ export default function Filtering({ mobile = false }) {
             dir="rtl"
             role="dialog"
             aria-modal="true"
-            aria-label="فیلتر ویلاها"
+            aria-label="فیلتر باغ‌ها"
           >
             <div className="flex h-full flex-col">
               <header className="flex shrink-0 items-center justify-between border-b border-gray-100 px-5 py-4">

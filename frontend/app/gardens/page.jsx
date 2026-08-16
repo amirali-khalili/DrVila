@@ -1,13 +1,13 @@
-import Box from "@/components/category/villas/Box";
-import Filtering from "@/components/category/villas/Filtering";
-import Header from "@/components/category/villas/Header";
-import Moshavere from "@/components/category/villas/Moshavere";
-import Sorting from "@/components/category/villas/Sorting";
+import Box from "@/components/category/gardens/Box";
+import Filtering from "@/components/category/gardens/Filtering";
+import Header from "@/components/category/gardens/Header";
+import Moshavere from "@/components/category/gardens/Moshavere";
+import Sorting from "@/components/category/gardens/Sorting";
 import Link from "next/link";
 
 const ALLOWED_FILTERS = [
   "location", "min_price", "max_price", "min_land", "max_land",
-  "min_build", "max_build", "beds", "features", "sort", "search", "page",
+"features", "sort", "search", "page",
 ];
 
 async function getProducts(filters) {
@@ -18,7 +18,7 @@ async function getProducts(filters) {
     if (Array.isArray(value)) value.forEach((item) => apiParams.append(key, item));
   });
   const query = apiParams.toString();
-  const url = query ? `http://localhost:8000/api/v1/villas/?${query}` : "http://localhost:8000/api/v1/villas/";
+  const url = query ? `http://localhost:8000/api/v1/gardens/?${query}` : "http://localhost:8000/api/v1/gardens/";
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error("Failed to fetch products");
   return response.json();
@@ -54,7 +54,7 @@ export default async function Page({ searchParams }) {
       else if (value !== undefined && value !== "") params.set(key, String(value));
     });
     params.set("page", String(page));
-    return `/villas?${params.toString()}`;
+    return `/gardens?${params.toString()}`;
   };
 
   return (
@@ -75,8 +75,8 @@ export default async function Page({ searchParams }) {
             <div className="mb-4 lg:hidden">
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div>
-                  <h2 className="font-extrabold text-gray-900">ویلاها</h2>
-                  <p className="mt-1 text-xs text-gray-500">{total.toLocaleString("fa-IR")} ویلا پیدا شد</p>
+                  <h2 className="font-extrabold text-gray-900">باغ‌ها</h2>
+                  <p className="mt-1 text-xs text-gray-500">{total.toLocaleString("fa-IR")} باغ پیدا شد</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -90,22 +90,51 @@ export default async function Page({ searchParams }) {
                 <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-brand-50 text-brand-600">
                   <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="m15 15-6 6m0-6 6 6M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0Z" /></svg>
                 </div>
-                <h3 className="text-xl font-bold">ملکی پیدا نشد</h3>
-                <p className="mt-2 text-sm leading-7 text-gray-500">فیلترها خیلی محدود شده‌اند؛ چند مورد را حذف و دوباره امتحان کنید.</p>
+                <h3 className="text-xl font-bold">باغی پیدا نشد</h3>
+                <p className="mt-2 text-sm leading-7 text-gray-500">باغی مطابق فیلترهای انتخاب‌شده پیدا نشد؛ چند فیلتر را حذف و دوباره امتحان کنید.</p>
               </div>
             ) : <Box products={products} />}
 
-            {lastPage > 1 && (
-              <nav aria-label="صفحه‌بندی" className="mt-8 flex items-center justify-center gap-2">
-                {paginationItems.map((item) => typeof item === "string" ? (
-                  <span key={item} className="flex h-10 min-w-6 items-center justify-center text-sm text-gray-400">...</span>
-                ) : item === currentPage ? (
-                  <span key={item} aria-current="page" className="flex h-10 w-10 items-center justify-center rounded-xl border border-brand-400 bg-brand-50 text-sm font-semibold text-brand-700">{item.toLocaleString("fa-IR")}</span>
-                ) : (
-                  <Link key={item} href={createPageHref(item)} scroll={false} className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white text-sm text-gray-500 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">{item.toLocaleString("fa-IR")}</Link>
-                ))}
-              </nav>
-            )}
+            {/* صفحه‌بندی */}
+            <div className="mt-8 flex items-center justify-center gap-2">
+              {paginationItems.map((item) => {
+                if (typeof item === "string") {
+                  return (
+                    <span
+                      key={item}
+                      className="flex h-10 min-w-6 items-center justify-center text-sm text-gray-400"
+                    >
+                      ...
+                    </span>
+                  );
+                }
+
+                const isActive = item === currentPage;
+
+                if (isActive) {
+                  return (
+                    <span
+                      key={item}
+                      aria-current="page"
+                      className="flex h-10 w-10 items-center justify-center rounded-xl border border-brand-400 bg-brand-50 text-sm font-semibold text-brand-700"
+                    >
+                      {item.toLocaleString("fa-IR")}
+                    </span>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item}
+                    href={createPageHref(item)}
+                    scroll={false}
+                    className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-gray-200 bg-white text-sm text-gray-500 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+                  >
+                    {item.toLocaleString("fa-IR")}
+                  </Link>
+                );
+              })}
+            </div>
           </section>
         </div>
         <Moshavere />

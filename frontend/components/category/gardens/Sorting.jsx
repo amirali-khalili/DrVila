@@ -69,7 +69,7 @@ export default function Sorting({ count = 0, mobile = false }) {
         </button>
 
         {isOpen && (
-          <div className="fixed inset-0 z-[100] lg:hidden" role="dialog" aria-modal="true" aria-label="مرتب‌سازی زمین‌ها">
+          <div className="fixed inset-0 z-[100] lg:hidden" role="dialog" aria-modal="true" aria-label="مرتب‌سازی باغ‌ها">
             <button type="button" aria-label="بستن" onClick={() => setIsOpen(false)} className="sort-backdrop-enter absolute inset-0 bg-black/55" />
             <div dir="rtl" className="sort-sheet-enter absolute inset-x-0 bottom-0 max-h-[82vh] overflow-y-auto rounded-t-[24px] bg-white pb-[max(16px,env(safe-area-inset-bottom))] shadow-2xl">
               <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-gray-300" />
@@ -108,7 +108,7 @@ export default function Sorting({ count = 0, mobile = false }) {
     <div className="mb-6 hidden rounded-[24px] bg-white p-5 shadow-soft lg:block">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold">لیست زمین‌ها</h2>
+          <h2 className="text-xl font-bold">لیست باغ‌ها</h2>
           <p className="mt-1 text-sm text-gray-500">{Number(count).toLocaleString("fa-IR")} ویلا پیدا شد</p>
         </div>
         <div ref={dropdownRef} className="relative min-w-[230px]">
