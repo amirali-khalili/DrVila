@@ -662,41 +662,7 @@ class VillaListAPIView(APIView):
         return value
 
 
-class VillaDetailAPIView(APIView):
-
-    @extend_schema(
-        summary="Get villa detail",
-        responses={
-            200: VillaSerializer,
-            404: {
-                "description": "Villa not found."
-            },
-        },
-    )
-    def get(self, request, pk):
-
-        try:
-            villa = Villa.objects.get(pk=pk)
-
-        except Villa.DoesNotExist:
-            return Response(
-                {
-                    "detail": "Villa not found."
-                },
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        serializer = VillaSerializer(
-            villa,
-            context={
-                "request": request
-            },
-        )
-
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK,
-        )
+ 
 
 class VillaDetailAPIView(APIView):
 
@@ -719,8 +685,47 @@ class VillaDetailAPIView(APIView):
     
     
     
+
+class EarthDetailAPIView(APIView):
+
+    def get(self, request, pk):
+        try:
+            earth = Earth.objects.get(pk=pk)
+        except Earth.DoesNotExist:
+            return Response(
+                {'detail': 'Earth not found.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = EarthSerializer(
+            earth,
+            context={'request': request}
+        )
+
+        return Response(serializer.data)
     
     
+    
+    
+    
+    
+class GardenDetailAPIView(APIView):
+
+    def get(self, request, pk):
+        try:
+            garden = Garden.objects.get(pk=pk)
+        except Garden.DoesNotExist:
+            return Response(
+                {'detail': 'Garden not found.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = GardenSerializer(
+            garden,
+            context={'request': request}
+        )
+
+        return Response(serializer.data)
     
     
     
