@@ -6,7 +6,7 @@ import React from "react";
 export default async function page({ params }) {
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:8000/api/villas/${id}`);
+  const res = await fetch(`http://localhost:8000/api/v1/villas/${id}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch product");
