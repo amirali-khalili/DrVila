@@ -1,96 +1,3 @@
-// import React from 'react'
-
-// export default function Header() {
-//   return (
-//     <div>
- 
-
-// <section className="hero-bg relative min-h-[760px] pb-28">
-//   <div className="max-w-7xl mx-auto px-6 pt-40">
-//     <div className="max-w-xl">
-//       <h1 className="text-white text-4xl md:text-5xl font-extrabold leading-[1.35]">
-//         خانه‌ای برای آرامش،<br/>
-//         <span className="text-[var(--gold-light)]">سرمایه‌ای</span> برای آینده
-//       </h1>
-//       <p className="text-white/80 mt-5 leading-8 max-w-md">
-//         خرید و فروش تخصصی ویلا و زمین در سهیلیه کرج<br/>
-//         با همراهی مشاوران حرفه‌ای دکتر ویلا
-//       </p>
-//       <div className="flex items-center gap-4 mt-8">
-//         <button className="flex items-center gap-2 gold-grad text-[#241c0c] font-semibold px-6 py-3.5 rounded-full shadow-lg hover:brightness-110 transition">
-//           مشاهده ویلاها
-//           <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-//         </button>
-//         <button className="flex items-center gap-2 border border-white/50 text-white font-semibold px-6 py-3.5 rounded-full hover:bg-white/10 transition">
-//           دریافت مشاوره
-//           <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-//         </button>
-//       </div>
-//     </div>
-//   </div>
-
-//   <div className="absolute -bottom-16 inset-x-0">
-//     <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl px-8 py-7">
-//       <div className="text-center mb-6">
-//         <h3 className="font-bold text-lg text-[#232821] inline-flex items-center gap-2">
-//           جستجوی ملک رویایی شما
-//         </h3>
-//         <div className="flex items-center justify-center gap-2 mt-1">
-//           <span className="w-6 h-px bg-[var(--gold)]"></span>
-//           <span className="w-1.5 h-1.5 bg-[var(--gold)] rotate-45"></span>
-//           <span className="w-6 h-px bg-[var(--gold)]"></span>
-//         </div>
-//       </div>
-//       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 items-end">
-//         <div className="order-5 md:order-1">
-//           <button className="w-full flex items-center justify-center gap-2 bg-[#1f2319] text-white font-semibold rounded-xl py-3.5 hover:bg-[#2b3123] transition">
-//             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-//             جستجو
-//           </button>
-//         </div>
-//         <div className="order-4 md:order-2">
-//           <label className="text-xs text-gray-400 block mb-1.5">بودجه</label>
-//           <select className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-600 focus:outline-none focus:border-[var(--gold)]">
-//             <option>انتخاب کنید</option>
-//             <option>زیر ۵ میلیارد</option>
-//             <option>۵ تا ۱۰ میلیارد</option>
-//             <option>بالای ۱۰ میلیارد</option>
-//           </select>
-//         </div>
-//         <div className="order-3 md:order-3">
-//           <label className="text-xs text-gray-400 block mb-1.5">متراژ</label>
-//           <select className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-600 focus:outline-none focus:border-[var(--gold)]">
-//             <option>انتخاب کنید</option>
-//             <option>زیر ۲۰۰ متر</option>
-//             <option>۲۰۰ تا ۵۰۰ متر</option>
-//             <option>بالای ۵۰۰ متر</option>
-//           </select>
-//         </div>
-//         <div className="order-2 md:order-4">
-//           <label className="text-xs text-gray-400 block mb-1.5">موقعیت</label>
-//           <select className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-600 focus:outline-none focus:border-[var(--gold)]">
-//             <option selected>سهیلیه</option>
-//             <option>نیوساز</option>
-//             <option>مشجر</option>
-//           </select>
-//         </div>
-//         <div className="order-1 md:order-5">
-//           <label className="text-xs text-gray-400 block mb-1.5">نوع ملک</label>
-//           <select className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-600 focus:outline-none focus:border-[var(--gold)]">
-//             <option selected>ویلا</option>
-//             <option>زمین</option>
-//             <option>باغ ویلا</option>
-//           </select>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// </section>
-
-//     </div>
-//   )
-// }
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -115,36 +22,27 @@ const AREA_OPTIONS = [
 ];
 
 const LOCATION_OPTIONS = [
-  { value: "سهیلیه", label: "سهیلیه" },
-  { value: "کردان", label: "کردان" },
-  { value: "آغچه‌حصار", label: "آغچه‌حصار" },
-  { value: "زکی‌آباد", label: "زکی‌آباد" },
+  { value: "soheiliyeh", label: "سهیلیه" },
+  { value: "kordan", label: "کردان" },
+  { value: "aghcheh-hesar", label: "آغچه‌حصار" },
+  { value: "zakiabad", label: "زکی‌آباد" },
 ];
 
 const PROPERTY_OPTIONS = [
-  { value: "villa", label: "ویلا" },
-  { value: "earth", label: "زمین" },
+  { value: "villas", label: "ویلا" },
+  { value: "earths", label: "زمین" },
+  { value: "gardens", label: "باغ" },
 ];
 
-function HeaderDropdown({
-  value,
-  placeholder,
-  options,
-  onChange,
-}) {
+function HeaderDropdown({ value, placeholder, options, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const selectedOption = options.find(
-    (option) => option.value === value,
-  );
+  const selectedOption = options.find((option) => option.value === value);
 
   useEffect(() => {
     const closeDropdown = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
@@ -248,7 +146,7 @@ export default function Header() {
     min_price: "",
     min_land: "",
     location: "",
-    property_type: "villa",
+    property_type: "villas",
   });
 
   const changeFilter = (name, value) => {
@@ -273,16 +171,17 @@ export default function Header() {
       params.set("location", filters.location);
     }
 
-    const pathname =
-      filters.property_type === "earth"
-        ? "/earth"
-        : "/villas";
+    const propertyPaths = {
+      villas: "/villas",
+      earths: "/earths",
+      gardens: "/gardens",
+    };
+
+    const pathname = propertyPaths[filters.property_type] || "/villas";
 
     const queryString = params.toString();
 
-    router.push(
-      queryString ? `${pathname}?${queryString}` : pathname,
-    );
+    router.push(queryString ? `${pathname}?${queryString}` : pathname);
   };
 
   return (
@@ -293,10 +192,8 @@ export default function Header() {
             <h1 className="text-4xl font-extrabold leading-[1.35] text-white md:text-5xl">
               خانه‌ای برای آرامش،
               <br />
-              <span className="text-[var(--gold-light)]">
-                سرمایه‌ای
-              </span>{" "}
-              برای آینده
+              <span className="text-[var(--gold-light)]">سرمایه‌ای</span> برای
+              آینده
             </h1>
 
             <p className="mt-5 max-w-md leading-8 text-white/80">
@@ -308,7 +205,6 @@ export default function Header() {
             <div className="mt-8 flex items-center gap-4">
               <button className="gold-grad flex items-center gap-2 rounded-full px-6 py-3.5 font-semibold text-[#241c0c] shadow-lg transition hover:brightness-110">
                 مشاهده ویلاها
-
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4"
@@ -323,7 +219,6 @@ export default function Header() {
 
               <button className="flex items-center gap-2 rounded-full border border-white/50 px-6 py-3.5 font-semibold text-white transition hover:bg-white/10">
                 دریافت مشاوره
-
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4"
@@ -354,89 +249,78 @@ export default function Header() {
             </div>
 
             <div className="grid grid-cols-2 items-end gap-4 md:grid-cols-5">
-              
+              <div className="order-4">
+                <label className="mb-1.5 block text-xs text-gray-400">
+                  حداقل بودجه
+                </label>
 
-             <div className="order-4">
-  <label className="mb-1.5 block text-xs text-gray-400">
-    حداقل بودجه
-  </label>
+                <HeaderDropdown
+                  placeholder="انتخاب کنید"
+                  value={filters.min_price}
+                  options={PRICE_OPTIONS}
+                  onChange={(value) => changeFilter("min_price", value)}
+                />
+              </div>
 
-  <HeaderDropdown
-    placeholder="انتخاب کنید"
-    value={filters.min_price}
-    options={PRICE_OPTIONS}
-    onChange={(value) =>
-      changeFilter("min_price", value)
-    }
-  />
-</div>
+              <div className="order-3">
+                <label className="mb-1.5 block text-xs text-gray-400">
+                  حداقل متراژ
+                </label>
 
-<div className="order-3">
-  <label className="mb-1.5 block text-xs text-gray-400">
-    حداقل متراژ
-  </label>
+                <HeaderDropdown
+                  placeholder="انتخاب کنید"
+                  value={filters.min_land}
+                  options={AREA_OPTIONS}
+                  onChange={(value) => changeFilter("min_land", value)}
+                />
+              </div>
 
-  <HeaderDropdown
-    placeholder="انتخاب کنید"
-    value={filters.min_land}
-    options={AREA_OPTIONS}
-    onChange={(value) =>
-      changeFilter("min_land", value)
-    }
-  />
-</div>
+              <div className="order-2">
+                <label className="mb-1.5 block text-xs text-gray-400">
+                  موقعیت
+                </label>
 
-<div className="order-2">
-  <label className="mb-1.5 block text-xs text-gray-400">
-    موقعیت
-  </label>
+                <HeaderDropdown
+                  placeholder="همه مناطق"
+                  value={filters.location}
+                  options={LOCATION_OPTIONS}
+                  onChange={(value) => changeFilter("location", value)}
+                />
+              </div>
 
-  <HeaderDropdown
-    placeholder="همه مناطق"
-    value={filters.location}
-    options={LOCATION_OPTIONS}
-    onChange={(value) =>
-      changeFilter("location", value)
-    }
-  />
-</div>
+              <div className="order-1">
+                <label className="mb-1.5 block text-xs text-gray-400">
+                  نوع ملک
+                </label>
 
-<div className="order-1">
-  <label className="mb-1.5 block text-xs text-gray-400">
-    نوع ملک
-  </label>
+                <HeaderDropdown
+                  placeholder="انتخاب کنید"
+                  value={filters.property_type}
+                  options={PROPERTY_OPTIONS}
+                  onChange={(value) => changeFilter("property_type", value)}
+                />
+              </div>
 
-  <HeaderDropdown
-    placeholder="انتخاب کنید"
-    value={filters.property_type}
-    options={PROPERTY_OPTIONS}
-    onChange={(value) =>
-      changeFilter("property_type", value)
-    }
-  />
-</div>
-
-<div className="order-5">
-  <button
-    type="button"
-    onClick={handleSearch}
-    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#1f2319] py-3.5 font-semibold text-white transition hover:bg-[#2b3123]"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-4 w-4"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.35-4.35" />
-    </svg>
-
-    جستجو
-  </button>
-</div>
+              <div className="order-5">
+                <button
+                  type="button"
+                  onClick={handleSearch}
+                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#1f2319] py-3.5 font-semibold text-white transition hover:bg-[#2b3123]"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                  </svg>
+                  جستجو
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -444,3 +328,4 @@ export default function Header() {
     </div>
   );
 }
+

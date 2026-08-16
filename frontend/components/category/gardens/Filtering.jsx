@@ -1,31 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const PRICE_OPTIONS = [1, 2, 5, 8, 10, 15, 20];
-
-const AREA_OPTIONS = [
-  200,
-  500,
-  1000,
-  2000,
-  5000,
-];
-
-const EMPTY_FILTERS = {
-  location: "",
-  min_price: "",
-  max_price: "",
-  min_land: "",
-  max_land: "",
-  features: [],
-};
-
+const AREA_OPTIONS = [200, 500, 1000, 2000, 5000];
 const FILTER_KEYS = [
   "location",
   "min_price",
@@ -34,8 +13,46 @@ const FILTER_KEYS = [
   "max_land",
   "features",
 ];
+const EMPTY = {
+  location: "",
+  min_price: "",
+  max_price: "",
+  min_land: "",
+  max_land: "",
+  features: [],
+};
+const LOCATIONS = [
+  { value: "soheiliyeh", label: "سهیلیه" },
+  { value: "kordan", label: "کردان" },
+  { value: "aghcheh-hesar", label: "آغچه‌حصار" },
+  { value: "zakiabad", label: "زکی‌آباد" },
+];
+const FEATURES = [
+  { value: "deed", label: "سنددار" },
+  { value: "caretaker", label: "سرایداری" },
+  { value: "in_urban_area", label: "داخل بافت" },
+  { value: "has_utilities", label: "دارای آب، برق و گاز" },
+];
+
+function FilterIcon({ className = "h-5 w-5" }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      <path
+        strokeLinecap="round"
+        d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M7 14v6"
+      />
+    </svg>
+  );
+}
 
 function ModernDropdown({
+  label,
   placeholder,
   value,
   options,
@@ -44,44 +61,30 @@ function ModernDropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
   const selectedOption = options.find(
-    (option) =>
-      String(option.value) === String(value),
+    (option) => String(option.value) === String(value)
   );
 
   useEffect(() => {
     const closeDropdown = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target))
         setIsOpen(false);
-      }
     };
-
-    document.addEventListener(
-      "mousedown",
-      closeDropdown,
-    );
-
-    return () => {
-      document.removeEventListener(
-        "mousedown",
-        closeDropdown,
-      );
-    };
+    document.addEventListener("mousedown", closeDropdown);
+    return () => document.removeEventListener("mousedown", closeDropdown);
   }, []);
 
   return (
     <div ref={dropdownRef} className="relative min-w-0">
+      {label && (
+        <label className="mb-2 block text-xs font-medium text-gray-500">
+          {label}
+        </label>
+      )}
       <button
         type="button"
         disabled={disabled}
-        aria-expanded={isOpen}
-        onClick={() =>
-          setIsOpen((previous) => !previous)
-        }
+        onClick={() => setIsOpen((previous) => !previous)}
         className={`flex w-full cursor-pointer items-center justify-between gap-2 rounded-2xl border px-3 py-3 text-right text-sm transition-colors ${
           isOpen
             ? "border-brand-400 bg-brand-50/50"
@@ -95,12 +98,9 @@ function ModernDropdown({
         <span className="min-w-0 flex-1 whitespace-nowrap">
           {selectedOption?.label ?? placeholder}
         </span>
-
         <svg
           className={`h-4 w-4 shrink-0 transition-transform ${
-            isOpen
-              ? "rotate-180 text-brand-600"
-              : "text-gray-400"
+            isOpen ? "rotate-180 text-brand-600" : "text-gray-400"
           }`}
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -112,7 +112,6 @@ function ModernDropdown({
           />
         </svg>
       </button>
-
       {isOpen && !disabled && (
         <div className="absolute right-0 top-full z-50 mt-2 min-w-full overflow-hidden rounded-2xl border border-gray-200 bg-white p-2 shadow-[0_18px_50px_rgba(34,76,60,0.16)]">
           <button
@@ -121,23 +120,19 @@ function ModernDropdown({
               onChange("");
               setIsOpen(false);
             }}
-            className={`flex w-full cursor-pointer items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2.5 text-right text-sm transition-colors ${
+            className={`flex w-full items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2.5 text-right text-sm transition-colors ${
               value === ""
                 ? "bg-brand-50 font-semibold text-brand-700"
                 : "text-gray-600 hover:bg-brand-50 hover:text-brand-700"
             }`}
           >
             <span>{placeholder}</span>
-
             {value === "" && (
-              <span className="h-2 w-2 shrink-0 rounded-full bg-brand-500" />
+              <span className="h-2 w-2 rounded-full bg-brand-500" />
             )}
           </button>
-
           {options.map((option) => {
-            const isSelected =
-              String(option.value) === String(value);
-
+            const selected = String(option.value) === String(value);
             return (
               <button
                 key={option.value}
@@ -146,16 +141,15 @@ function ModernDropdown({
                   onChange(String(option.value));
                   setIsOpen(false);
                 }}
-                className={`flex w-full cursor-pointer items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2.5 text-right text-sm transition-colors ${
-                  isSelected
+                className={`flex w-full items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2.5 text-right text-sm transition-colors ${
+                  selected
                     ? "bg-brand-50 font-semibold text-brand-700"
                     : "text-gray-700 hover:bg-brand-100 hover:text-brand-800"
                 }`}
               >
                 <span>{option.label}</span>
-
-                {isSelected && (
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-500 text-xs text-white">
+                {selected && (
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-500 text-xs text-white">
                     ✓
                   </span>
                 )}
@@ -168,421 +162,304 @@ function ModernDropdown({
   );
 }
 
-export default function Filtering() {
+function readFromParams(searchParams) {
+  return {
+    location: searchParams.get("location") || "",
+    min_price: searchParams.get("min_price") || "",
+    max_price: searchParams.get("max_price") || "",
+    min_land: searchParams.get("min_land") || "",
+    max_land: searchParams.get("max_land") || "",
+    features: (searchParams.get("features") || "").split(",").filter(Boolean),
+  };
+}
+
+export default function Filtering({ mobile = false }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
+  const [filters, setFilters] = useState(() => readFromParams(searchParams));
 
-  const readFiltersFromUrl = () => ({
-    location:
-      searchParams.get("location") ?? "",
-
-    min_price:
-      searchParams.get("min_price") ?? "",
-
-    max_price:
-      searchParams.get("max_price") ?? "",
-
-    min_land:
-      searchParams.get("min_land") ?? "",
-
-    max_land:
-      searchParams.get("max_land") ?? "",
-
-    features: searchParams.get("features")
-      ? searchParams
-          .get("features")
-          .split(",")
-          .filter(Boolean)
-      : [],
-  });
-
-  const [filters, setFilters] = useState(
-    readFiltersFromUrl,
-  );
-
-  const filtersRef = useRef(filters);
-
-  const updateUrl = (nextFilters) => {
-    /*
-     * پارامترهای قبلی مثل sort را نگه می‌داریم
-     * و فقط فیلترهای مربوط به زمین را تغییر می‌دهیم.
-     */
-    const params = new URLSearchParams(
-      searchParams.toString(),
-    );
-
-    FILTER_KEYS.forEach((key) => {
-      params.delete(key);
-    });
-
-    Object.entries(nextFilters).forEach(
-      ([key, value]) => {
-        if (key === "features") {
-          if (value.length > 0) {
-            params.set(
-              "features",
-              value.join(","),
-            );
-          }
-
-          return;
-        }
-
-        if (value !== "") {
-          params.set(key, String(value));
-        }
-      },
-    );
-
-    // با تغییر فیلتر به صفحه اول برگردد
-    params.delete("page");
-
-    const queryString = params.toString();
-
-    router.replace(
-      queryString
-        ? `${pathname}?${queryString}`
-        : pathname,
-      {
-        scroll: false,
-      },
-    );
-  };
-
-  const applyFilters = (nextFilters) => {
-    filtersRef.current = nextFilters;
-    setFilters(nextFilters);
-    updateUrl(nextFilters);
-  };
-
-  const changeFilter = (name, value) => {
-    const nextFilters = {
-      ...filtersRef.current,
-      [name]: value,
+  useEffect(() => setFilters(readFromParams(searchParams)), [searchParams]);
+  useEffect(() => {
+    if (!mobile || !isOpen) return;
+    const oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = oldOverflow;
     };
+  }, [isOpen, mobile]);
 
-    /*
-     * اگر حداکثر قیمت از حداقل کمتر یا مساوی شد،
-     * حداکثر پاک شود.
-     */
+  // فقط فیلترهایی شمرده می‌شوند که واقعاً در URL اعمال شده‌اند.
+  const appliedFilterCount = FILTER_KEYS.reduce((total, key) => {
+    if (key === "features") {
+      return (
+        total +
+        (searchParams.get("features") || "").split(",").filter(Boolean).length
+      );
+    }
+
+    return total + (searchParams.get(key) ? 1 : 0);
+  }, 0);
+
+  const writeUrl = (next) => {
+    const params = new URLSearchParams(searchParams.toString());
+    FILTER_KEYS.forEach((key) => params.delete(key));
+    Object.entries(next).forEach(([key, value]) => {
+      if (key === "features") {
+        if (value.length) params.set(key, value.join(","));
+      } else if (value !== "") params.set(key, value);
+    });
+    params.delete("page");
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, {
+      scroll: false,
+    });
+  };
+
+  const change = (name, value) => {
+    const next = { ...filters, [name]: value };
     if (
       name === "min_price" &&
-      nextFilters.max_price !== "" &&
-      Number(nextFilters.max_price) <= Number(value)
-    ) {
-      nextFilters.max_price = "";
-    }
-
-    applyFilters(nextFilters);
-  };
-
-  const changeAreaFilter = (name, value) => {
-    const nextFilters = {
-      ...filtersRef.current,
-      [name]: value,
-    };
-
-    /*
-     * اگر حداکثر متراژ از حداقل کمتر یا مساوی شد،
-     * حداکثر پاک شود.
-     */
+      next.max_price &&
+      Number(next.max_price) <= Number(value)
+    )
+      next.max_price = "";
     if (
       name === "min_land" &&
-      nextFilters.max_land !== "" &&
-      Number(nextFilters.max_land) <= Number(value)
-    ) {
-      nextFilters.max_land = "";
-    }
-
-    applyFilters(nextFilters);
+      next.max_land &&
+      Number(next.max_land) <= Number(value)
+    )
+      next.max_land = "";
+    setFilters(next);
+    if (!mobile) writeUrl(next);
   };
 
-  const toggleFeature = (feature) => {
-    const currentFeatures =
-      filtersRef.current.features;
-
-    const features = currentFeatures.includes(feature)
-      ? currentFeatures.filter(
-          (item) => item !== feature,
-        )
-      : [...currentFeatures, feature];
-
-    applyFilters({
-      ...filtersRef.current,
-      features,
-    });
+  const toggleFeature = (value) => {
+    const features = filters.features.includes(value)
+      ? filters.features.filter((item) => item !== value)
+      : [...filters.features, value];
+    const next = { ...filters, features };
+    setFilters(next);
+    if (!mobile) writeUrl(next);
   };
 
-  const resetFilters = () => {
+  const reset = () => {
+    const next = { ...EMPTY, features: [] };
+    setFilters(next);
+    if (!mobile) writeUrl(next);
+  };
+
+  const applyMobileFilters = () => {
+    writeUrl(filters);
+    setIsOpen(false);
+  };
+
+  const resetMobileFilters = () => {
     const emptyFilters = {
-      ...EMPTY_FILTERS,
+      ...EMPTY,
       features: [],
     };
 
-    filtersRef.current = emptyFilters;
     setFilters(emptyFilters);
+    setIsOpen(false);
 
-    const params = new URLSearchParams(
-      searchParams.toString(),
-    );
-
-    FILTER_KEYS.forEach((key) => {
-      params.delete(key);
+    // تمام پارامترهای URL را حذف می‌کند
+    router.replace(pathname, {
+      scroll: false,
     });
-
-    params.delete("page");
-
-    const queryString = params.toString();
-
-    router.replace(
-      queryString
-        ? `${pathname}?${queryString}`
-        : pathname,
-      {
-        scroll: false,
-      },
-    );
   };
 
-  /*
-   * هنگام Back و Forward مرورگر،
-   * مقادیر فیلترها با URL هماهنگ می‌شوند.
-   */
-  useEffect(() => {
-    const urlFilters = readFiltersFromUrl();
+  const form = (
+    <div className="space-y-6">
+      <ModernDropdown
+        label="منطقه"
+        placeholder="همه مناطق"
+        value={filters.location}
+        options={LOCATIONS}
+        onChange={(value) => change("location", value)}
+      />
 
-    filtersRef.current = urlFilters;
-    setFilters(urlFilters);
-  }, [searchParams]);
-
-  const minimumPriceOptions =
-    PRICE_OPTIONS.map((price) => ({
-      value: price,
-      label: `از ${price.toLocaleString(
-        "fa-IR",
-      )} میلیارد`,
-    }));
-
-  const maximumPriceOptions =
-    PRICE_OPTIONS.filter((price) => {
-      if (!filters.min_price) {
-        return true;
-      }
-
-      return price > Number(filters.min_price);
-    }).map((price) => ({
-      value: price,
-      label: `تا ${price.toLocaleString(
-        "fa-IR",
-      )} میلیارد`,
-    }));
-
-  const minimumLandOptions =
-    AREA_OPTIONS.map((area) => ({
-      value: area,
-      label: `${area.toLocaleString(
-        "fa-IR",
-      )} متر`,
-    }));
-
-  const maximumLandOptions =
-    AREA_OPTIONS.filter((area) => {
-      if (!filters.min_land) {
-        return true;
-      }
-
-      return area > Number(filters.min_land);
-    }).map((area) => ({
-      value: area,
-      label: `${area.toLocaleString(
-        "fa-IR",
-      )} متر`,
-    }));
-
-  const locationOptions = [
-    {
-      value: "soheiliyeh",
-      label: "سهیلیه",
-    },
-    {
-      value: "kordan",
-      label: "کردان",
-    },
-    {
-      value: "aghcheh-hesar",
-      label: "آغچه‌حصار",
-    },
-    {
-      value: "zakiabad",
-      label: "زکی‌آباد",
-    },
-  ];
-
-  const featureOptions = [
-    {
-      value: "deed",
-      label: "سنددار",
-    },
-    {
-      value: "caretaker",
-      label: "سرایداری",
-    },
-    {
-      value: "in_urban_area",
-      label: "داخل بافت",
-    },
-    {
-      value: "has_utilities",
-      label: "دارای آب، برق و گاز",
-    },
-  ];
-
-  return (
-    <div className="sticky top-28 rounded-[24px] bg-white shadow-soft">
-      <div className="border-b border-gray-100 px-5 py-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold">
-            فیلترها
-          </h3>
-
-          <button
-            type="button"
-            onClick={resetFilters}
-            className="cursor-pointer rounded-full border border-transparent px-4 py-2 text-sm font-medium text-brand-600 transition-all duration-200 hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 hover:ring-1 hover:ring-brand-200"
-          >
-            پاک کردن
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-6 px-5 py-5">
-        {/* منطقه */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold">
-            منطقه
-          </label>
-
+      <div>
+        <h4 className="mb-2 text-sm font-semibold">
+          بازه قیمت (میلیارد تومان)
+        </h4>
+        <div className="grid grid-cols-2 gap-3">
           <ModernDropdown
-            placeholder="همه مناطق"
-            value={filters.location}
-            options={locationOptions}
-            onChange={(value) =>
-              changeFilter("location", value)
-            }
+            placeholder="حداقل"
+            value={filters.min_price}
+            options={PRICE_OPTIONS.map((v) => ({
+              value: v,
+              label: `از ${v} میلیارد`,
+            }))}
+            onChange={(value) => change("min_price", value)}
+          />
+          <ModernDropdown
+            placeholder="حداکثر"
+            value={filters.max_price}
+            options={PRICE_OPTIONS.filter(
+              (v) => !filters.min_price || v > Number(filters.min_price)
+            ).map((v) => ({ value: v, label: `تا ${v} میلیارد` }))}
+            onChange={(value) => change("max_price", value)}
           />
         </div>
-
-        {/* بازه قیمت */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold">
-            بازه قیمت (میلیارد تومان)
-          </label>
-
-          <div className="grid grid-cols-2 gap-3">
-            <ModernDropdown
-              placeholder="حداقل"
-              value={filters.min_price}
-              options={minimumPriceOptions}
-              onChange={(value) =>
-                changeFilter("min_price", value)
-              }
-            />
-
-            <ModernDropdown
-              placeholder="حداکثر"
-              value={filters.max_price}
-              options={maximumPriceOptions}
-              onChange={(value) =>
-                changeFilter("max_price", value)
-              }
-            />
-          </div>
-        </div>
-
-        {/* متراژ زمین */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold">
-            متراژ زمین (متر)
-          </label>
-
-          <div className="grid grid-cols-2 gap-3">
-            <ModernDropdown
-              placeholder="حداقل"
-              value={filters.min_land}
-              options={minimumLandOptions}
-              onChange={(value) =>
-                changeAreaFilter(
-                  "min_land",
-                  value,
-                )
-              }
-            />
-
-            <ModernDropdown
-              placeholder={
-                filters.min_land === "5000"
-                  ? "گزینه‌ای نیست"
-                  : "حداکثر"
-              }
-              value={filters.max_land}
-              options={maximumLandOptions}
-              disabled={
-                filters.min_land === "5000"
-              }
-              onChange={(value) =>
-                changeAreaFilter(
-                  "max_land",
-                  value,
-                )
-              }
-            />
-          </div>
-        </div>
-
-        {/* ویژگی‌های زمین */}
-        <div>
-          <label className="mb-3 block text-sm font-semibold">
-            ویژگی‌ها
-          </label>
-
-          <div className="space-y-3 text-sm text-gray-700">
-            {featureOptions.map((feature) => {
-              const isChecked =
-                filters.features.includes(
-                  feature.value,
-                );
-
-              return (
-                <label
-                  key={feature.value}
-                  className={`flex cursor-pointer items-center justify-between rounded-2xl border px-4 py-3 transition ${
-                    isChecked
-                      ? "border-brand-300 bg-brand-50 text-brand-800"
-                      : "border-gray-100 hover:border-brand-200"
-                  }`}
-                >
-                  <span>{feature.label}</span>
-
-                  <input
-                    type="checkbox"
-                    value={feature.value}
-                    checked={isChecked}
-                    onChange={() =>
-                      toggleFeature(feature.value)
-                    }
-                    className="h-4 w-4 accent-brand-600"
-                  />
-                </label>
-              );
-            })}
-          </div>
-        </div>
-
-        <p className="rounded-2xl bg-mist px-4 py-3 text-center text-xs leading-6 text-gray-500">
-          تغییرات فیلتر به‌صورت خودکار اعمال می‌شوند.
-        </p>
       </div>
+
+      {[
+        { title: "متراژ زمین (متر)", min: "min_land", max: "max_land" },
+      ].map((group) => (
+        <div key={group.min}>
+          <h4 className="mb-2 text-sm font-semibold">{group.title}</h4>
+          <div className="grid grid-cols-2 gap-3">
+            <ModernDropdown
+              placeholder="حداقل"
+              value={filters[group.min]}
+              options={AREA_OPTIONS.map((v) => ({
+                value: v,
+                label: `${v.toLocaleString("fa-IR")} متر`,
+              }))}
+              onChange={(value) => change(group.min, value)}
+            />
+            <ModernDropdown
+              disabled={filters[group.min] === "5000"}
+              placeholder={
+                filters[group.min] === "5000" ? "گزینه‌ای نیست" : "حداکثر"
+              }
+              value={filters[group.max]}
+              options={AREA_OPTIONS.filter(
+                (v) => !filters[group.min] || v > Number(filters[group.min])
+              ).map((v) => ({
+                value: v,
+                label: `${v.toLocaleString("fa-IR")} متر`,
+              }))}
+              onChange={(value) => change(group.max, value)}
+            />
+          </div>
+        </div>
+      ))}
+
+      <div>
+        <h4 className="mb-3 text-sm font-semibold">ویژگی‌ها</h4>
+        <div className="space-y-2">
+          {FEATURES.map((feature) => (
+            <label
+              key={feature.value}
+              className="flex cursor-pointer items-center justify-between rounded-2xl border border-gray-100 px-4 py-3 text-sm"
+            >
+              <span>{feature.label}</span>
+              <input
+                type="checkbox"
+                checked={filters.features.includes(feature.value)}
+                onChange={() => toggleFeature(feature.value)}
+                className="h-4 w-4 accent-brand-600"
+              />
+            </label>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (mobile) {
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => {
+            setFilters(readFromParams(searchParams));
+            setIsOpen(true);
+          }}
+          className={`relative flex h-11 flex-1 items-center justify-center gap-2 rounded-2xl border bg-white px-3 text-xs font-semibold shadow-sm ${
+            appliedFilterCount
+              ? "border-brand-400 text-brand-700"
+              : "border-gray-200 text-gray-700"
+          }`}
+        >
+          <FilterIcon />
+          <span>فیلترها</span>
+          {appliedFilterCount > 0 && (
+            <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-500 px-1 text-[10px] text-white">
+              {appliedFilterCount.toLocaleString("fa-IR")}
+            </span>
+          )}
+        </button>
+        {isOpen && (
+          <div
+            className="filter-mobile-enter fixed inset-0 z-[100] bg-white lg:hidden"
+            dir="rtl"
+            role="dialog"
+            aria-modal="true"
+            aria-label="فیلتر باغ‌ها"
+          >
+            <div className="flex h-full flex-col">
+              <header className="flex shrink-0 items-center justify-between border-b border-gray-100 px-5 py-4">
+                <h3 className="text-lg font-extrabold">فیلترها</h3>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-2xl text-gray-500 hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </header>
+              <div className="flex-1 overflow-y-auto px-5 py-5">{form}</div>
+              <footer className="grid shrink-0 grid-cols-[1fr_2fr] gap-3 border-t border-gray-200 bg-white p-4 pb-[max(16px,env(safe-area-inset-bottom))]">
+                <button
+                  type="button"
+                  onClick={resetMobileFilters}
+                  className="rounded-2xl border border-red-200 py-3 text-sm font-bold text-red-500 transition hover:bg-red-50"
+                >
+                  حذف فیلترها
+                </button>{" "}
+                <button
+                  type="button"
+                  onClick={applyMobileFilters}
+                  className="rounded-2xl bg-red-500 py-3 text-sm font-bold text-white transition hover:bg-red-600 active:scale-[0.98]"
+                >
+                  اعمال فیلترها
+                </button>
+              </footer>
+            </div>
+          </div>
+        )}
+        <style jsx global>{`
+          @keyframes filterMobileEnter {
+            from {
+              opacity: 0;
+              transform: translateX(28px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          .filter-mobile-enter {
+            animation: filterMobileEnter 260ms cubic-bezier(0.22, 0.8, 0.3, 1)
+              both;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .filter-mobile-enter {
+              animation: none;
+            }
+          }
+        `}</style>
+      </>
+    );
+  }
+
+  return (
+    <div className="sticky top-28 hidden rounded-[24px] bg-white shadow-soft lg:block">
+      <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
+        <h3 className="text-lg font-bold">فیلترها</h3>
+        <button
+          type="button"
+          onClick={reset}
+          className="text-sm font-medium text-brand-600"
+        >
+          پاک کردن
+        </button>
+      </div>
+      <div className="px-5 py-5">{form}</div>
     </div>
   );
 }
