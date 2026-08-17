@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const PRICE_OPTIONS = [
   { value: "1", label: "از ۱ میلیارد" },
@@ -186,7 +187,20 @@ export default function Header() {
 
   return (
     <div>
-      <section className="hero-bg relative min-h-[760px] pb-28">
+      <section className="relative min-h-[760px] overflow-visible pb-28">
+  <div className="absolute inset-0 -z-10 overflow-hidden">
+    <Image
+      src="/images/header-bg-homaPage.webp"
+      alt="ویلای لوکس در سهیلیه کرج"
+      fill
+      priority
+      sizes="100vw"
+      className="object-cover object-center"
+    />
+
+    {/* لایه تیره روی تصویر برای خوانایی متن */}
+    <div className="absolute inset-0 bg-gradient-to-l from-black/75 via-black/45 to-black/20" />
+  </div>
         <div className="mx-auto max-w-7xl px-6 pt-40">
           <div className="max-w-xl">
             <h1 className="text-4xl font-extrabold leading-[1.35] text-white md:text-5xl">

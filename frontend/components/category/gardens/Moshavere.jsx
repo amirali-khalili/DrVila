@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 
 export default function Moshavere() {
@@ -29,9 +30,12 @@ export default function Moshavere() {
               </a>
             </div>
           </div>
-          <img
-            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"
+                   <Image
+            src="/images/moshaverevilacategory.webp"
             alt="مشاوره خرید ویلا"
+            width={1200}
+            height={800}
+            sizes="(min-width: 768px) 50vw, 100vw"
             className="h-full min-h-[280px] w-full object-cover"
           />
         </div>

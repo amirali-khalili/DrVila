@@ -1,11 +1,15 @@
+import Image from "next/image";
 import React from "react";
 
 export default function Header() {
   return (
     <section className="relative overflow-hidden">
-      <img
-        src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=80"
+       <Image
+        src="/images/vilacategory.webp"
         alt="ویلای لوکس"
+        width={1800}
+        height={1000}
+        sizes="100vw"
         className="h-[320px] w-full object-cover md:h-[380px]"
       />
       <div className="hero-overlay absolute inset-0"></div>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 export default function Soheylie() {
@@ -36,9 +37,15 @@ export default function Soheylie() {
         </div>
       </div>
     </div>
-    <div className="min-h-[280px]">
-      <img src="https://images.unsplash.com/photo-1544984243-ec57ea16fe25?q=80&w=1200&auto=format&fit=crop" className="w-full h-full object-cover" alt="نمای هوایی سهیلیه"/>
-    </div>
+    <div className="relative min-h-[280px] overflow-hidden">
+  <Image
+    src="/images/soheylie.webp"
+    alt="نمای هوایی سهیلیه"
+    fill
+    sizes="100vw"
+    className="object-cover"
+  />
+</div>
   </div>
 </section>
   );

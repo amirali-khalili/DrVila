@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 
 export default function Moshavere() {
@@ -25,13 +26,16 @@ export default function Moshavere() {
                 href="tel:09121234567"
                 className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
               >
-                تماس فوری
+                تماس فوری باید برقرار شود بببببب
               </a>
             </div>
           </div>
-          <img
-            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"
+                   <Image
+            src="/images/moshaverevilacategory.webp"
             alt="مشاوره خرید ویلا"
+            width={1200}
+            height={800}
+            sizes="(min-width: 768px) 50vw, 100vw"
             className="h-full min-h-[280px] w-full object-cover"
           />
         </div>

@@ -1,286 +1,278 @@
-import React from "react";
+"use client";
 
-export default function DetailVila({product}) {
+import Image from "next/image";
+import { useEffect, useState } from "react";
+
+export default function DetailVila({ product }) {
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const galleryImages = [
+    ...(product?.poster
+      ? [
+          {
+            id: "poster",
+            image: product.poster,
+          },
+        ]
+      : []),
+    ...(product?.images ?? []),
+  ];
+
+  const currentImage = galleryImages[selectedImageIndex] ?? galleryImages[0];
+  const visibleImages = galleryImages.slice(0, 6);
+  const remainingImagesCount = Math.max(galleryImages.length - 6, 0);
+
+  useEffect(() => {
+    setSelectedImageIndex(0);
+  }, [product?.id]);
+
+  const showPreviousImage = () => {
+    if (galleryImages.length < 2) return;
+
+    setSelectedImageIndex((currentIndex) =>
+      currentIndex === 0 ? galleryImages.length - 1 : currentIndex - 1
+    );
+  };
+
+  const showNextImage = () => {
+    if (galleryImages.length < 2) return;
+
+    setSelectedImageIndex((currentIndex) =>
+      currentIndex === galleryImages.length - 1 ? 0 : currentIndex + 1
+    );
+  };
+
+  const propertyFeatures = [
+    {
+      key: "deed",
+      label: "سند",
+      enabled: product?.deed,
+      icon: (
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M14 2v6h6M8 13h8M8 17h5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      ),
+    },
+    {
+      key: "furnished",
+      label: "مبله",
+      enabled: product?.furnished,
+      icon: (
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M5 12V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <path
+            d="M4 11a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2M5 19v2M19 19v2"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      ),
+    },
+    {
+      key: "pool",
+      label: "استخر",
+      enabled: product?.pool,
+      icon: (
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M3 16c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0M3 20c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0M7 13V5a2 2 0 0 1 4 0M7 9h7V5a2 2 0 0 1 4 0"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ),
+    },
+    {
+      key: "roof",
+      label: "روف گاردن",
+      enabled: product?.roof,
+      icon: (
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M3 11 12 4l9 7M5 10v10h14V10"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M9 20v-5h6v5M12 4V2M16 5l2-2M8 5 6 3"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      ),
+    },
+    {
+      key: "caretaker",
+      label: "سرایدار",
+      enabled: product?.caretaker,
+      icon: (
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+          <circle
+            cx="12"
+            cy="7"
+            r="4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M4 21a8 8 0 0 1 16 0M17 13.5l2 1 2-1v3.5c0 2-1.2 3.4-2 4-.8-.6-2-2-2-4v-3.5Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ),
+    },
+  ].filter((feature) => feature.enabled);
+
   return (
     <section>
-      <div className="relative rounded-2xl overflow-hidden h-[400px] group">
-        <img
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
-          className="w-full h-full object-cover"
-          alt="ویلا"
-        />
-        <div className="absolute top-4 right-4 bg-black/50 backdrop-blur text-white text-[12px] px-3 py-1.5 rounded-full flex items-center gap-1">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M9 18l6-6-6-6"
-              stroke="white"
-              strokeWidth="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <span>۱ / ۱۲</span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-6 gap-3 mt-3">
-        <img
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=300&auto=format&fit=crop"
-          className="w-full h-20 object-cover rounded-xl ring-2 ring-amber-400 cursor-pointer"
-          alt=""
-        />
-        <img
-          src="https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=300&auto=format&fit=crop"
-          className="w-full h-20 object-cover rounded-xl cursor-pointer"
-          alt=""
-        />
-        <img
-          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=300&auto=format&fit=crop"
-          className="w-full h-20 object-cover rounded-xl cursor-pointer"
-          alt=""
-        />
-        <img
-          src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?q=80&w=300&auto=format&fit=crop"
-          className="w-full h-20 object-cover rounded-xl cursor-pointer"
-          alt=""
-        />
-        <img
-          src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=300&auto=format&fit=crop"
-          className="w-full h-20 object-cover rounded-xl cursor-pointer"
-          alt=""
-        />
-        <div className="relative rounded-xl overflow-hidden cursor-pointer">
-          <img
-            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=300&auto=format&fit=crop"
-            className="w-full h-20 object-cover brightness-50"
-            alt=""
+      {/* تصویر اصلی */}
+      <div className="group relative h-[400px] overflow-hidden rounded-2xl bg-gray-100">
+        {currentImage ? (
+          <Image
+            src={currentImage.image}
+            alt={product?.title || "تصویر ویلا"}
+            fill
+            priority
+            sizes="(min-width: 1280px) 1200px, 100vw"
+            className="object-cover"
           />
-          <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-[15px]">
-            ۳+
-          </span>
-        </div>
+        ) : (
+          <div className="flex h-full items-center justify-center text-sm text-gray-400">
+            تصویری برای این ملک ثبت نشده است
+          </div>
+        )}
+
+        {galleryImages.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={showPreviousImage}
+              aria-label="تصویر قبلی"
+              className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition hover:scale-105 hover:bg-black/65"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="m15 18-6-6 6-6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              onClick={showNextImage}
+              aria-label="تصویر بعدی"
+              className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition hover:scale-105 hover:bg-black/65"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="m9 18 6-6-6-6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </>
+        )}
+
+        {galleryImages.length > 0 && (
+          <div className="absolute right-4 top-4 z-10 rounded-full bg-black/50 px-3 py-1.5 text-[12px] text-white backdrop-blur">
+            {selectedImageIndex + 1} / {galleryImages.length}
+          </div>
+        )}
       </div>
 
-      <div className="mt-10">
-        <h2 className="text-[19px] font-bold border-b-2 border-amber-400 inline-block pb-2 mb-4">
-          جزئیات ملک
-        </h2>
-        <p className="text-[14px] text-gray-500 leading-8 mb-8">
-          {product.description}
-        </p>
+      {/* تصاویر کوچک گالری */}
+      {visibleImages.length > 1 && (
+        <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-6">
+          {visibleImages.map((galleryImage, index) => {
+            const isSelected = selectedImageIndex === index;
+            const isLastVisibleImage = index === 5 && remainingImagesCount > 0;
 
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-10">
-          <div className="flex flex-col items-center gap-2 text-center">
-            <div className="w-11 h-11 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M3 9l9-7 9 7v11a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
+            return (
+              <button
+                key={`${galleryImage.id}-${galleryImage.image}`}
+                type="button"
+                onClick={() => setSelectedImageIndex(index)}
+                aria-label={`نمایش تصویر ${index + 1}`}
+                className={`relative h-20 cursor-pointer overflow-hidden rounded-xl bg-gray-100 ${
+                  isSelected
+                    ? "ring-2 ring-amber-400"
+                    : "ring-1 ring-transparent"
+                }`}
+              >
+                <Image
+                  src={galleryImage.image}
+                  alt={`${product?.title || "ویلا"} - تصویر ${index + 1}`}
+                  fill
+                  sizes="(min-width: 640px) 16vw, 33vw"
+                  className={`object-cover transition duration-300 hover:scale-105 ${
+                    isLastVisibleImage ? "brightness-50" : ""
+                  }`}
                 />
-              </svg>
-            </div>
-            <p className="text-[13px] font-bold">{product.land_area} متر</p>
-            <p className="text-[11.5px] text-gray-400">متراژ زمین</p>
-          </div>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <div className="w-11 h-11 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <rect
-                  x="3"
-                  y="3"
-                  width="18"
-                  height="18"
-                  rx="2"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-                <path
-                  d="M3 9h18M9 21V9"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-              </svg>
-            </div>
-            <p className="text-[13px] font-bold">{product.building_area} متر</p>
-            <p className="text-[11.5px] text-gray-400">متراژ بنا</p>
-          </div>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <div className="w-11 h-11 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M5 10V6a2 2 0 0 1 2-2h3v6"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-              </svg>
-            </div>
-            <p className="text-[13px] font-bold">{product.room_count}</p>
-            <p className="text-[11.5px] text-gray-400">اتاق خواب</p>
-          </div>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <div className="w-11 h-11 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M4 12h16M6 12V6a2 2 0 0 1 2-2h1M6 12v8m12-8v8M6 20h12"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-              </svg>
-            </div>
-            <p className="text-[13px] font-bold">{product.bathroom_count}</p>
-            <p className="text-[11.5px] text-gray-400">سرویس بهداشتی</p>
-          </div>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <div className="w-11 h-11 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M5 17h14M5 17v-4h14v4M7 13V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-              </svg>
-            </div>
-            <p className="text-[13px] font-bold">{product.parking_count}</p>
-            <p className="text-[11.5px] text-gray-400">پارکینگ</p>
-          </div>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <div className="w-11 h-11 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 8v4l3 3"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="9"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-              </svg>
-            </div>
-            <p className="text-[13px] font-bold">{product.construction_year}</p>
-            <p className="text-[11.5px] text-gray-400">سال ساخت</p>
+
+                {isLastVisibleImage && (
+                  <span className="absolute inset-0 flex items-center justify-center text-[15px] font-bold text-white">
+                    +{remainingImagesCount}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ویژگی‌های ملک */}
+      {propertyFeatures.length > 0 && (
+        <div>
+          <h2 className="mb-4 mt-10 inline-block border-b-2 border-amber-400 pb-2 text-[19px] font-bold">
+            ویژگی‌های ملک
+          </h2>
+
+          <div className="flex flex-wrap gap-3">
+            {propertyFeatures.map((feature) => (
+              <span
+                key={feature.key}
+                className="flex h-11 items-center gap-2 rounded-xl border border-gray-200 px-4 text-[13.5px]"
+              >
+                <span className="flex text-amber-500">{feature.icon}</span>
+                {feature.label}
+              </span>
+            ))}
           </div>
         </div>
-
-        <h2 className="text-[19px] font-bold border-b-2 border-amber-400 inline-block pb-2 mb-4">
-          ویژگی‌های ملک
-        </h2>
-        <div className="flex flex-wrap gap-3">
-          <span className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 h-11 text-[13.5px]">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-amber-500"
-            >
-              <path
-                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-              <path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-            سند تک برگ
-          </span>
-          <span className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 h-11 text-[13.5px]">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-amber-500"
-            >
-              <rect
-                x="3"
-                y="4"
-                width="18"
-                height="16"
-                rx="2"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-              <path d="M3 9h18" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-            سند تک برگ
-          </span>
-          <span className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 h-11 text-[13.5px]">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-amber-500"
-            >
-              <path
-                d="M12 2C9 6 6 9 6 13a6 6 0 0 0 12 0c0-4-3-7-6-11z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-            </svg>
-            گرمایش از کف
-          </span>
-          <span className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 h-11 text-[13.5px]">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-amber-500"
-            >
-              <path
-                d="M3 21h18M5 21V9l7-5 7 5v12"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-            </svg>
-            کیفیت و آشپزخانه
-          </span>
-          <span className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 h-11 text-[13.5px]">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-amber-500"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="9"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M8 12h8M12 8v8"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-            </svg>
-            سونا و جکوزی
-          </span>
-          <span className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 h-11 text-[13.5px]">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-amber-500"
-            >
-              <path
-                d="M3 16c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0M4 10h16v4H4z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-            </svg>
-            استخر
-          </span>
-        </div>
-      </div>
+      )}
     </section>
   );
 }
