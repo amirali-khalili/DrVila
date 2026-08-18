@@ -16,5 +16,20 @@ urlpatterns = [
     path('gardens/', GardenListAPIView.as_view(), name='garden-list'),
     path('gardens/<int:pk>/', GardenDetailAPIView.as_view(), name='garden-detail'),
     
-    
+    path("villas/latest/", LatestVillasAPIView.as_view(), name="latest-villas"),
+    path(
+    "villas/<int:pk>/similar/",
+    SimilarVillasAPIView.as_view(),
+    name="similar-villas",
+),
+    path(
+    "earth/<int:pk>/similar/",
+    SimilarEarthsAPIView.as_view(),
+    name="similar-earths",
+),
+    path(
+    "gardens/<int:pk>/similar/",
+    SimilarGardensAPIView.as_view(),
+    name="similar-gardens",
+)
 ]

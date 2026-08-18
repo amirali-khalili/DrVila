@@ -21,6 +21,7 @@ class Villa(models.Model):
     price = models.PositiveIntegerField()
     poster = models.ImageField(upload_to='villas/')
     
+    
     land_area = models.PositiveIntegerField(null=True,blank=True)
     building_area = models.PositiveIntegerField(null=True,blank=True)
     room_count = models.PositiveIntegerField(null=True,blank=True)
@@ -36,9 +37,10 @@ class Villa(models.Model):
     roof = models.BooleanField(default=False)
     
     
-    
+    is_pin = models.BooleanField(default=False)
     
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -97,7 +99,7 @@ class Earth(models.Model):
     
     
     created_at = models.DateTimeField(auto_now_add=True)
-
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.title
     
@@ -179,7 +181,9 @@ class Garden(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
-
+    updated_at = models.DateTimeField(
+    auto_now=True
+)
     def __str__(self):
         return self.title
 
