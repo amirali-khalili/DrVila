@@ -2539,3 +2539,218 @@ class GardenListAPIView(APIView):
             )
 
         return value
+    
+    
+    
+from rest_framework.generics import ListAPIView
+
+    
+    
+    
+class LatestVillasAPIView(ListAPIView):
+    queryset = Villa.objects.all().order_by("-is_pin", "-updated_at")[:3]
+    serializer_class = VillaSerializer
+    
+    
+from rest_framework.generics import ListAPIView
+from rest_framework.exceptions import NotFound
+from django.db.models import Case, When, F, IntegerField
+
+
+from django.db.models import Case, When, IntegerField, F
+from rest_framework.generics import ListAPIView
+from rest_framework.exceptions import NotFound
+
+
+class SimilarVillasAPIView(ListAPIView):
+    serializer_class = VillaSerializer
+
+    def get_queryset(self):
+        villa_id = self.kwargs["pk"]
+
+        try:
+            villa = Villa.objects.get(pk=villa_id)
+        except Villa.DoesNotExist:
+            raise NotFound("Villa not found")
+
+        features = [
+            "pool",
+            "deed",
+            "furnished",
+            "caretaker",
+            "roof",
+        ]
+
+        queryset = Villa.objects.exclude(pk=villa.id)
+
+        # فقط Feature هایی که در ویلای اصلی True هستند
+        active_features = [
+            feature
+            for feature in features
+            if getattr(villa, feature)
+        ]
+
+        # تعداد Feature های مشترک True
+        match_expressions = []
+
+        for feature in active_features:
+            match_expressions.append(
+                Case(
+                    When(**{feature: True}, then=1),
+                    default=0,
+                    output_field=IntegerField(),
+                )
+            )
+
+        # جمع تعداد ویژگی‌های مشترک
+        match_count = match_expressions[0]
+
+        for expression in match_expressions[1:]:
+            match_count += expression
+
+        queryset = queryset.annotate(
+            match_count=match_count
+        )
+
+        return queryset.filter(
+            match_count__gte=2
+        ).order_by(
+            "-match_count",
+            "-updated_at"
+        )
+        
+        
+from django.db.models import Case, When, IntegerField
+from rest_framework.generics import ListAPIView
+from rest_framework.exceptions import NotFound
+
+
+class SimilarEarthsAPIView(ListAPIView):
+    serializer_class = EarthSerializer
+
+    def get_queryset(self):
+        earth_id = self.kwargs["pk"]
+
+        try:
+            earth = Earth.objects.get(pk=earth_id)
+        except Earth.DoesNotExist:
+            raise NotFound("Earth not found")
+
+        features = [
+            "deed",
+            "caretaker",
+            "in_urban_area",
+            "has_utilities",
+        ]
+
+        queryset = Earth.objects.exclude(pk=earth.id)
+
+        # فقط Featureهایی که در زمین اصلی True هستند
+        active_features = [
+            feature
+            for feature in features
+            if getattr(earth, feature)
+        ]
+
+        # اگر زمین اصلی کمتر از 2 ویژگی True داشته باشد
+        if len(active_features) < 2:
+            return Earth.objects.none()
+
+        # محاسبه تعداد ویژگی‌های مشترک
+        match_expressions = []
+
+        for feature in active_features:
+            match_expressions.append(
+                Case(
+                    When(**{feature: True}, then=1),
+                    default=0,
+                    output_field=IntegerField(),
+                )
+            )
+
+        match_count = match_expressions[0]
+
+        for expression in match_expressions[1:]:
+            match_count += expression
+
+        queryset = queryset.annotate(
+            match_count=match_count
+        )
+
+        return queryset.filter(
+            match_count__gte=2
+        ).order_by(
+            "-match_count",
+            "-updated_at"
+        )
+        
+        
+        
+from django.db.models import Case, When, IntegerField
+from rest_framework.generics import ListAPIView
+from rest_framework.exceptions import NotFound
+
+
+class SimilarGardensAPIView(ListAPIView):
+    serializer_class = GardenSerializer
+
+    def get_queryset(self):
+        garden_id = self.kwargs["pk"]
+
+        try:
+            garden = Garden.objects.get(pk=garden_id)
+        except Garden.DoesNotExist:
+            raise NotFound("Garden not found")
+
+        features = [
+            "deed",
+            "caretaker",
+            "in_urban_area",
+            "has_utilities",
+        ]
+
+        # خود باغ را از نتایج حذف می‌کنیم
+        queryset = Garden.objects.exclude(pk=garden.id)
+
+        # فقط ویژگی‌هایی که در باغ اصلی True هستند
+        active_features = [
+            feature
+            for feature in features
+            if getattr(garden, feature)
+        ]
+
+        # اگر باغ اصلی کمتر از 2 ویژگی True داشته باشد
+        if len(active_features) < 2:
+            return Garden.objects.none()
+
+        # محاسبه تعداد ویژگی‌های مشترک
+        match_expressions = []
+
+        for feature in active_features:
+            match_expressions.append(
+                Case(
+                    When(
+                        **{feature: True},
+                        then=1
+                    ),
+                    default=0,
+                    output_field=IntegerField(),
+                )
+            )
+
+        # جمع تعداد ویژگی‌های مشترک
+        match_count = match_expressions[0]
+
+        for expression in match_expressions[1:]:
+            match_count += expression
+
+        queryset = queryset.annotate(
+            match_count=match_count
+        )
+
+        return queryset.filter(
+            match_count__gte=2
+        ).order_by(
+            "-match_count",
+            "-updated_at",
+        )
