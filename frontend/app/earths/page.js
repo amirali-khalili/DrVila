@@ -30,8 +30,8 @@ async function getProducts(filters) {
   });
   const query = apiParams.toString();
   const url = query
-    ? `https://api.doctorvila.ir/api/v1/earths/?${query}`
-    : "https://api.doctorvila.ir/api/v1/earths/";
+    ? `http://localhost:8000/api/v1/earths/?${query}`
+    : "http://localhost:8000/api/v1/earths/";
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error("Failed to fetch products");
   return response.json();

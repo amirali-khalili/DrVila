@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <section className="relative overflow-hidden">
        <Image
-        src="/images/vilacategory.webp"
+        src="/images/header-earth.webp"
         alt="ویلای لوکس"
         width={1800}
         height={1000}
@@ -16,11 +16,7 @@ export default function Header() {
       <div className="absolute inset-0">
         <div className="mx-auto flex h-full max-w-7xl flex-col justify-center px-4 lg:px-6">
           <div className="max-w-xl text-white">
-            <div className="mb-3 flex items-center gap-2 text-sm text-white/80">
-              <span>خانه</span>
-              <span>/</span>
-              <span className="text-brand-200">ویلاها</span>
-            </div>
+            
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">
               ویلاهای سهیلیه
             </h1>

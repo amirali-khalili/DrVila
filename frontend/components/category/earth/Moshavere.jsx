@@ -26,7 +26,7 @@ export default function Moshavere() {
                 href="tel:09121234567"
                 className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
               >
-                تماس فوری باید برقرار شود بببببب
+                تماس فوری باید برقرار شود 
               </a>
             </div>
           </div>

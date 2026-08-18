@@ -26,8 +26,8 @@ export default function Box({ products }) {
               </span>
             </div>
 
-            <div className="rounded-xl bg-mist p-2 text-center text-[10px] text-gray-600 md:rounded-2xl md:p-3 md:text-xs">
-              <div className="font-bold text-ink md:text-sm">
+            <div className="rounded-xl bg-mist p-2 text-center text-[10px] text-gray-600 md:rounded-2xl md:p-3 md:text-xs flex justify-start">
+              <div className="font-bold text-ink md:text-sm ml-1">
                 {item.land_area}
               </div>
               <div>متر زمین</div>

@@ -21,19 +21,23 @@ export default function Cta() {
           <p className="text-white/70 text-sm mt-3 leading-7">
             مشاوران ما آماده‌اند تا بهترین مسیر خرید را برای شما هموار کنند.
           </p>
-          <button className="inline-flex items-center gap-2 gold-grad text-[#241c0c] font-semibold px-6 py-3 rounded-full shadow-lg mt-6 hover:brightness-110 transition">
-            شروع مشاوره رایگان
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-          </button>
+          <a
+  href="tel:09991887858"
+  className="gold-grad mt-6 inline-flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-semibold text-[#241c0c] shadow-lg transition hover:brightness-110 flex justify-center"
+>
+  شروع مشاوره رایگان
+
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-4 w-4"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+</a>
         </div>
       </div>
     </section>

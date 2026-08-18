@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const PRICE_OPTIONS = [
   { value: "1", label: "از ۱ میلیارد" },
@@ -188,19 +189,19 @@ export default function Header() {
   return (
     <div>
       <section className="relative min-h-[760px] overflow-visible pb-28">
-  <div className="absolute inset-0 -z-10 overflow-hidden">
-    <Image
-      src="/images/header-bg-homaPage.webp"
-      alt="ویلای لوکس در سهیلیه کرج"
-      fill
-      priority
-      sizes="100vw"
-      className="object-cover object-center"
-    />
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <Image
+            src="/images/header-bg-homaPage.webp"
+            alt="ویلای لوکس در سهیلیه کرج"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
 
-    {/* لایه تیره روی تصویر برای خوانایی متن */}
-    <div className="absolute inset-0 bg-gradient-to-l from-black/75 via-black/45 to-black/20" />
-  </div>
+          {/* لایه تیره روی تصویر برای خوانایی متن */}
+          <div className="absolute inset-0 bg-gradient-to-l from-black/75 via-black/45 to-black/20" />
+        </div>
         <div className="mx-auto max-w-7xl px-6 pt-40">
           <div className="max-w-xl">
             <h1 className="text-4xl font-extrabold leading-[1.35] text-white md:text-5xl">
@@ -217,21 +218,26 @@ export default function Header() {
             </p>
 
             <div className="mt-8 flex items-center gap-4">
-              <button className="gold-grad flex items-center gap-2 rounded-full px-6 py-3.5 font-semibold text-[#241c0c] shadow-lg transition hover:brightness-110">
-                مشاهده ویلاها
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M19 12H5M12 19l-7-7 7-7" />
-                </svg>
-              </button>
+              <Link href="/villas">
+                <button className=" cursor-pointer gold-grad flex items-center gap-2 rounded-full px-6 py-3.5 font-semibold text-[#241c0c] shadow-lg transition hover:brightness-110">
+                  مشاهده ویلاها
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                </button>
+              </Link>
 
-              <button className="flex items-center gap-2 rounded-full border border-white/50 px-6 py-3.5 font-semibold text-white transition hover:bg-white/10">
+              <a
+                href="tel:09991887858"
+                className="flex items-center gap-2 rounded-full border border-white/50 px-6 py-3.5 font-semibold text-white transition hover:bg-white/10"
+              >
                 دریافت مشاوره
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +249,7 @@ export default function Header() {
                 >
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -342,4 +348,3 @@ export default function Header() {
     </div>
   );
 }
-

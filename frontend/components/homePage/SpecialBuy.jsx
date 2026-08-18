@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function SpecialBuy() {
@@ -116,7 +117,8 @@ export default function SpecialBuy() {
               <span className="w-1.5 h-1.5 bg-[var(--gold)] rotate-45"></span>
               <span className="w-6 h-px bg-[var(--gold)]"></span>
             </div>
-            <button className="inline-flex items-center gap-2 gold-grad text-[#241c0c] font-semibold px-6 py-3 rounded-full shadow-lg hover:brightness-110 transition">
+            <Link href='/earths'  >
+            <button className="cursor-pointer inline-flex items-center gap-2 gold-grad text-[#241c0c] font-semibold px-6 py-3 rounded-full shadow-lg hover:brightness-110 transition">
               بررسی فرصت‌ها
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -125,10 +127,11 @@ export default function SpecialBuy() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-              >
+                >
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
             </button>
+                </Link>
             </div>
           </div>
         </div>
