@@ -6,21 +6,21 @@ import React from "react";
 export default async function page({ params }) {
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:8000/api/v1/earths/${id}`);
+  const res = await fetch(`https://api.doctorvila.ir/api/v1/earths/${id}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch product");
   }
 
   const product = await res.json();
-console.log(product)
+  console.log(product);
   return (
     <main class="max-w-[1180px] mx-auto px-6 pt-4 pb-16">
       <div class="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
-        <SideBar product = {product} />
-        <DetailVila product = {product} />
+        <SideBar product={product} />
+        <DetailVila product={product} />
       </div>
-      <AnotherVila product = {product} />
+      <AnotherVila product={product} />
     </main>
   );
 }
