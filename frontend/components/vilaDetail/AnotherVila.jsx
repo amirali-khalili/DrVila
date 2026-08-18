@@ -16,7 +16,7 @@ export default function AnotherVila() {
           <div className="flex items-center justify-between">
             <button className="flex items-center gap-1 text-[12.5px] text-gray-500 border border-gray-200 rounded-full px-3 py-1.5">
               مشاهده جزئیات
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" stroke-linejoin="round"/></svg>
             </button>
             <span className="text-amber-500 font-bold text-[14px]">۹.۲ میلیارد تومان</span>
           </div>
@@ -32,7 +32,7 @@ export default function AnotherVila() {
           <div className="flex items-center justify-between">
             <button className="flex items-center gap-1 text-[12.5px] text-gray-500 border border-gray-200 rounded-full px-3 py-1.5">
               مشاهده جزئیات
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" stroke-linejoin="round"/></svg>
             </button>
             <span className="text-amber-500 font-bold text-[14px]">۹.۸ میلیارد تومان</span>
           </div>
@@ -48,7 +48,7 @@ export default function AnotherVila() {
           <div className="flex items-center justify-between">
             <button className="flex items-center gap-1 text-[12.5px] text-gray-500 border border-gray-200 rounded-full px-3 py-1.5">
               مشاهده جزئیات
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" stroke-linejoin="round"/></svg>
             </button>
             <span className="text-amber-500 font-bold text-[14px]">۱۰.۵ میلیارد تومان</span>
           </div>
