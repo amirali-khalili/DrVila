@@ -491,7 +491,7 @@ export default function Filtering({ mobile = false }) {
         <button
           type="button"
           onClick={reset}
-          className="text-sm font-medium text-brand-600"
+          className="cursor-pointer rounded-full px-3 py-2 text-sm font-medium text-brand-600 transition-colors duration-200 hover:bg-red-50"
         >
           پاک کردن
         </button>

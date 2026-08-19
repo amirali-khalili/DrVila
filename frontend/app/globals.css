@@ -123,3 +123,31 @@ box-shadow: 0 12px 24px rgba(17,17,17,.08);
 .rounded-xl2 {
 border-radius: 1.25rem;
 }
+
+.similar-villas-swiper {
+  --swiper-theme-color: #f59e0b;
+}
+
+/* دکمه‌های چپ و راست */
+.similar-villas-swiper .swiper-button-next,
+.similar-villas-swiper .swiper-button-prev {
+  width: 42px;
+  height: 42px;
+  color: #f59e0b;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 3px 14px rgb(0 0 0 / 12%);
+  padding: 10px;
+}
+
+/* کوچک کردن خود آیکون فلش */
+.similar-villas-swiper .swiper-button-next::after,
+.similar-villas-swiper .swiper-button-prev::after {
+  font-size: 10px !important;
+  font-weight: bold;
+}
+
+/* نقطه فعال پایین */
+.similar-villas-swiper .swiper-pagination-bullet-active {
+  background-color: #f59e0b;
+}

@@ -1,27 +1,55 @@
-import AnotherVila from "@/components/vilaDetail/AnotherVila";
-import DetailVila from "@/components/vilaDetail/DetailVila";
-import SideBar from "@/components/vilaDetail/SideBar";
-import React from "react";
+import AnotherVila from "@/components/productDetail/gardenDetail/AnotherVila";
+import DetailVila from "@/components/productDetail/gardenDetail/DetailVila";
+import SideBar from "@/components/productDetail/gardenDetail/SideBar";
 
-export default async function page({ params }) {
+export default async function Page({ params }) {
   const { id } = await params;
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const res = await fetch(`http://localhost:8000/api/v1/gardens/${id}`);
+  const [productRes, similarRes] = await Promise.all([
+    fetch(`http://localhost:8000/api/v1/gardens/${id}/`, {
+      cache: "force-cache",
+      next: {
+        revalidate: 7200,
+      },
+    }),
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch product");
+    fetch(`http://localhost:8000/api/v1/gardens/${id}/similar/`, {
+      cache: "force-cache",
+      next: {
+        revalidate: 7200,
+      },
+    }),
+  ]);
+
+  if (!productRes.ok) {
+    throw new Error("دریافت اطلاعات باغ ناموفق بود");
   }
 
-  const product = await res.json();
-  console.log(product);
+  const product = await productRes.json();
+
+  let similarGardens = [];
+
+  if (similarRes.ok) {
+    const data = await similarRes.json();
+
+    similarGardens = Array.isArray(data)
+      ? data
+      : data?.results ?? data?.data ?? [];
+  }
+
   return (
-    <main class="max-w-[1180px] mx-auto px-6 pt-4 pb-16">
-      <div class="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
-        <SideBar product={product} />
-        <DetailVila product={product} />
+    <main className="mx-auto w-full max-w-[1180px] px-3 pb-16 pt-4 sm:px-4 lg:px-6">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-6">
+        <div className="min-w-0">
+          <SideBar product={product} />
+        </div>
+
+        <div className="min-w-0">
+          <DetailVila product={product} />
+        </div>
       </div>
-      <AnotherVila product={product} />
+
+      <AnotherVila gardens={similarGardens} />
     </main>
   );
 }
