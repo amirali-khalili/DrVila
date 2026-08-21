@@ -6,14 +6,14 @@ export default async function Page({ params }) {
   const { id } = await params;
 
   const [productRes, similarRes] = await Promise.all([
-    fetch(`http://localhost:8000/api/v1/villas/${id}/`, {
+    fetch(`https://api.doctorvila.ir/api/v1/villas/${id}/`, {
       cache: "force-cache",
       next: {
         revalidate: 7200,
       },
     }),
 
-    fetch(`http://localhost:8000/api/v1/villas/${id}/similar/`, {
+    fetch(`https://api.doctorvila.ir/api/v1/villas/${id}/similar/`, {
       cache: "force-cache",
       next: {
         revalidate: 7200,

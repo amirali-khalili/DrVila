@@ -40,15 +40,15 @@ async function getProducts(filters) {
   const query = apiParams.toString();
 
   const url = query
-    ? `http://localhost:8000/api/v1/gardens/?${query}`
-    : "http://localhost:8000/api/v1/gardens/";
+    ? `https://api.doctorvila.ir/api/v1/gardens/?${query}`
+    : "https://api.doctorvila.ir/api/v1/gardens/";
 
-    const response = await fetch(url, {
-      cache: "force-cache",
-      next: {
-        revalidate: 7200,
-      },
-    });
+  const response = await fetch(url, {
+    cache: "force-cache",
+    next: {
+      revalidate: 7200,
+    },
+  });
   if (!response.ok) {
     throw new Error("دریافت باغ‌ها ناموفق بود");
   }
@@ -58,10 +58,7 @@ async function getProducts(filters) {
 
 function createPaginationItems(currentPage, lastPage) {
   if (lastPage <= 5) {
-    return Array.from(
-      { length: lastPage },
-      (_, index) => index + 1
-    );
+    return Array.from({ length: lastPage }, (_, index) => index + 1);
   }
 
   const pages = new Set([
@@ -89,10 +86,7 @@ function createPaginationItems(currentPage, lastPage) {
   const items = [];
 
   validPages.forEach((page, index) => {
-    if (
-      index > 0 &&
-      page - validPages[index - 1] > 1
-    ) {
+    if (index > 0 && page - validPages[index - 1] > 1) {
       items.push(`ellipsis-${validPages[index - 1]}`);
     }
 
@@ -128,15 +122,10 @@ async function GardensResults({ filters }) {
 
   const productItems = products?.data ?? [];
   const total = Number(products?.pagination?.total) || 0;
-  const currentPage =
-    Number(products?.pagination?.current_page) || 1;
-  const lastPage =
-    Number(products?.pagination?.last_page) || 1;
+  const currentPage = Number(products?.pagination?.current_page) || 1;
+  const lastPage = Number(products?.pagination?.last_page) || 1;
 
-  const paginationItems = createPaginationItems(
-    currentPage,
-    lastPage
-  );
+  const paginationItems = createPaginationItems(currentPage, lastPage);
 
   return (
     <>
@@ -162,13 +151,11 @@ async function GardensResults({ filters }) {
             </svg>
           </div>
 
-          <h3 className="text-xl font-bold">
-            باغی پیدا نشد
-          </h3>
+          <h3 className="text-xl font-bold">باغی پیدا نشد</h3>
 
           <p className="mt-2 text-sm leading-7 text-gray-500">
-            باغی مطابق فیلترهای انتخاب‌شده پیدا نشد؛ چند فیلتر
-            را حذف و دوباره امتحان کنید.
+            باغی مطابق فیلترهای انتخاب‌شده پیدا نشد؛ چند فیلتر را حذف و دوباره
+            امتحان کنید.
           </p>
         </div>
       ) : (
@@ -247,9 +234,7 @@ export default async function Page({ searchParams }) {
             {/* فیلتر و مرتب‌سازی موبایل؛ بیرون Suspense */}
             <div className="mb-4 lg:hidden">
               <div className="mb-3">
-                <h2 className="font-extrabold text-gray-900">
-                  باغ‌ها
-                </h2>
+                <h2 className="font-extrabold text-gray-900">باغ‌ها</h2>
               </div>
 
               <div className="flex items-center gap-2">
@@ -259,10 +244,7 @@ export default async function Page({ searchParams }) {
             </div>
 
             {/* فقط باکس‌های باغ اسکلت می‌شوند */}
-            <Suspense
-              key={loadingKey}
-              fallback={<VillasSkeleton />}
-            >
+            <Suspense key={loadingKey} fallback={<VillasSkeleton />}>
               <GardensResults filters={filters} />
             </Suspense>
           </section>

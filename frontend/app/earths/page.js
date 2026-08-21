@@ -40,15 +40,15 @@ async function getProducts(filters) {
   const query = apiParams.toString();
 
   const url = query
-    ? `http://localhost:8000/api/v1/earths/?${query}`
-    : "http://localhost:8000/api/v1/earths/";
+    ? `https://api.doctorvila.ir/api/v1/earths/?${query}`
+    : "https://api.doctorvila.ir/api/v1/earths/";
 
-    const response = await fetch(url, {
-      cache: "force-cache",
-      next: {
-        revalidate: 7200, // 
-      },
-    });
+  const response = await fetch(url, {
+    cache: "force-cache",
+    next: {
+      revalidate: 7200, //
+    },
+  });
 
   if (!response.ok) {
     throw new Error("دریافت زمین‌ها ناموفق بود");

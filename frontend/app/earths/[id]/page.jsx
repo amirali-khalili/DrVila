@@ -7,7 +7,7 @@ export default async function Page({ params }) {
 
   const [productRes, similarRes] = await Promise.all([
     // جزئیات زمین
-    fetch(`http://localhost:8000/api/v1/earths/${id}/`, {
+    fetch(`https://api.doctorvila.ir/api/v1/earths/${id}/`, {
       cache: "force-cache",
       next: {
         revalidate: 7200,
@@ -15,7 +15,7 @@ export default async function Page({ params }) {
     }),
 
     // زمین‌های مشابه
-    fetch(`http://localhost:8000/api/v1/earth/${id}/similar/`, {
+    fetch(`https://api.doctorvila.ir/api/v1/earth/${id}/similar/`, {
       cache: "force-cache",
       next: {
         revalidate: 7200,

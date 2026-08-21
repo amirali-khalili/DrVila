@@ -42,22 +42,22 @@ async function getProducts(filters) {
 
   const query = apiParams.toString();
 
-const url = query
-  ? `http://localhost:8000/api/v1/villas/?${query}`
-  : "http://localhost:8000/api/v1/villas/";
+  const url = query
+    ? `https://api.doctorvila.ir/api/v1/villas/?${query}`
+    : "https://api.doctorvila.ir/api/v1/villas/";
 
-const response = await fetch(url, {
-  cache: "force-cache",
-  next: {
-    revalidate: 7200, // هر  2 ساعت
-  },
-});
+  const response = await fetch(url, {
+    cache: "force-cache",
+    next: {
+      revalidate: 7200, // هر  2 ساعت
+    },
+  });
 
-if (!response.ok) {
-  throw new Error("دریافت ویلاها ناموفق بود");
-}
+  if (!response.ok) {
+    throw new Error("دریافت ویلاها ناموفق بود");
+  }
 
-return response.json();
+  return response.json();
 }
 
 function createPaginationItems(currentPage, lastPage) {
